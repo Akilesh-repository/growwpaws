@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowwPaws - Home Alternative</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === RESET & CORE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* === THEME VARIABLES (Lavender & Slate) === */
+        :root {
+            --bg-color: #FFFFFF;
+            --bg-secondary: #F1F5F9; 
+            --bg-card: #FFFFFF; 
+            --text-main: #0F172A; 
+            --text-muted: #64748B; 
+            --accent-color: #A78BFA; 
+            --accent-dark: #8B5CF6; 
+            --border-color: #CBD5E1; 
+            --drawer-bg: #FFFFFF;
+            --drawer-text: #0F172A;
+            --menu-hover-bg: rgba(167, 139, 250, 0.1); 
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            --bg-color: #0F172A; 
+            --bg-secondary: #1E293B; 
+            --bg-card: #1E293B; 
+            --text-main: #F8FAFC; 
+            --text-muted: #94A3B8; 
+            --accent-color: #C4B5FD; 
+            --accent-dark: #A78BFA; 
+            --border-color: #334155; 
+            --drawer-bg: #0F172A;
+            --drawer-text: #F8FAFC;
+            --menu-hover-bg: rgba(196, 181, 253, 0.15); 
+        }
+
+        /* RTL SUPPORT */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .fa-arrow-right { transform: rotate(180deg); }
+
+        /* PILL TOGGLE */
+        .theme-toggle-pill { width: 48px; height: 24px; background: rgba(0,0,0,0.15); border-radius: 30px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid rgba(255, 255, 255, 0.4); transition: all 0.3s; }
+        .theme-toggle-pill:hover { border-color: black; background: rgba(0,0,0,0.3); }
+        .theme-toggle-pill i { font-size: 10px; z-index: 1; color: white; }
+        .theme-toggle-pill .thumb { position: absolute; top: 1px; left: 2px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        
+        /* Dark Mode toggle positioning */
+        body.dark-mode .theme-toggle-pill .thumb { transform: translateX(24px); background: #0F172A; }
+
+        /* BUTTONS */
+        .btn { padding: 8px 20px; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 9999px; }
+        .btn-solid { background: var(--accent-color); color: #FFFFFF; border: 2px solid transparent; }
+        .btn-solid:hover { background: var(--accent-dark); box-shadow: 0 10px 15px -3px rgba(167, 139, 250, 0.3); }
+        .btn-outline { border: 2px solid var(--text-main); color: var(--text-main); background: transparent; }
+        .btn-outline:hover { background: var(--text-main); color: var(--bg-color); }
+
+        /* FULLSCREEN OVERLAY MENU */
+        .fullscreen-menu { 
+            position: fixed; inset: 0; background: var(--drawer-bg); z-index: 1001; 
+            display: flex; flex-direction: column; color: var(--drawer-text); 
+            opacity: 0; visibility: hidden; transform: scale(0.98); 
+            transition: all 0.3s ease; overflow-y: auto; 
+        }
+        .fullscreen-menu.active { opacity: 1; visibility: visible; transform: scale(1); }
+        .mobile-link { font-size: 1.125rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-main); text-decoration: none; transition: all 0.3s; }
+        .mobile-link:hover { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 left-0 w-full z-[1000] bg-[var(--accent-color)] border-b border-black/10 shadow-md transition-all duration-300">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 lg:py-4 flex items-center justify-between">
+            
+            <a href="index.html" class="text-xl lg:text-2xl font-black tracking-tighter text-white">
+                GrowwPaws
+            </a>
+            
+            <div class="hidden xl:flex items-center gap-6 text-xs font-black uppercase tracking-wide text-white h-full">
+                
+                <div class="group relative py-4 cursor-pointer">
+                    <span class="text-black transition-colors flex items-center gap-1">Home <i class="fas fa-chevron-down text-[8px]"></i></span>
+                    <div class="absolute top-[100%] left-1/2 -translate-x-1/2 pt-2 w-40 hidden group-hover:block z-50">
+                        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="index.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">Home Page 1</a>
+                            <a href="home-2.html" class="px-3 py-2 text-[var(--accent-color)] hover:bg-[var(--menu-hover-bg)] rounded-lg transition">Home Page 2</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="about.html" class="hover:text-black transition-colors py-4">About</a>
+                <a href="services.html" class="hover:text-black transition-colors py-4">Services</a>
+                <a href="pricing.html" class="hover:text-black transition-colors py-4">Pricing</a>
+                <a href="blog.html" class="hover:text-black transition-colors py-4">Blog</a>
+                <a href="faq.html" class="hover:text-black transition-colors py-4">FAQ</a>
+                <a href="contact.html" class="hover:text-black transition-colors py-4">Contact</a>
+
+                <div class="group relative py-4 cursor-pointer">
+                    <span class="hover:text-black transition-colors flex items-center gap-1">Dashboard <i class="fas fa-chevron-down text-[8px]"></i></span>
+                    <div class="absolute top-[100%] left-1/2 -translate-x-1/2 pt-2 w-44 hidden group-hover:block z-50">
+                        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="user.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">User Dashboard</a>
+                            <a href="admin.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">Admin Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden xl:flex items-center gap-4">
+                <a href="login.html" class="text-[11px] font-black uppercase tracking-widest text-white hover:text-black transition-colors">Login</a>
+                <a href="register.html" class="bg-white text-black hover:bg-black hover:text-white py-2 px-5 rounded-full font-black uppercase tracking-widest text-[11px] transition-all duration-300 shadow-md">Register</a>
+                
+                <div class="w-px h-5 bg-white/30 mx-1"></div>
+                
+                <button id="rtl-btn" class="text-[9px] font-black text-white border border-white hover:bg-black hover:border-black hover:text-white px-2 py-1.5 rounded-full transition-all duration-300 uppercase tracking-widest">RTL</button>
+                <div id="theme-toggle-desktop" class="theme-toggle-pill"><i class="fas fa-sun"></i><i class="fas fa-moon"></i><div class="thumb"></div></div>
+            </div>
+
+            <button id="mobile-btn" class="xl:hidden w-10 h-10 rounded-full border border-white flex items-center justify-center text-white hover:bg-black hover:border-black hover:text-white transition-all duration-300">
+                <i class="fas fa-bars text-sm"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="fullscreen-menu" id="fullscreen-menu">
+        <div class="w-full px-6 py-4 flex justify-between items-center border-b border-[var(--border-color)] shrink-0">
+            <span class="text-xl font-black tracking-tighter text-[var(--text-main)]">GrowwPaws</span>
+            <button id="close-menu" class="w-9 h-9 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-all text-[var(--text-main)]">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+        </div>
+
+        <div class="flex flex-col items-center justify-start space-y-4 py-8 w-full max-w-md mx-auto text-center px-6 my-auto shrink-0">
+            <a href="index.html" class="mobile-link">Home Page 1</a>
+            <a href="home-2.html" class="mobile-link" style="color: var(--accent-color);">Home Page 2</a>
+            <a href="about.html" class="mobile-link">About</a>
+            <a href="services.html" class="mobile-link">Services</a>
+            <a href="pricing.html" class="mobile-link">Pricing</a>
+            <a href="blog.html" class="mobile-link">Blog</a>
+            <a href="faq.html" class="mobile-link">FAQ</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            
+            <div class="w-12 h-px bg-[var(--border-color)] my-1"></div>
+            
+            <a href="user.html" class="mobile-link">User Dashboard</a>
+            <a href="admin.html" class="mobile-link">Admin Dashboard</a>
+        </div>
+
+        <div class="w-full px-6 py-5 border-t border-[var(--border-color)] flex flex-col gap-4 shrink-0">
+            <div class="flex justify-between items-center max-w-md mx-auto w-full">
+                <div class="flex items-center gap-3">
+                    <span class="text-[var(--text-muted)] font-bold text-[10px] uppercase tracking-widest">Theme:</span>
+                    <div id="theme-toggle-mobile" class="theme-toggle-pill" style="border-color: var(--border-color);"><i class="fas fa-sun" style="color: #f59e0b;"></i><i class="fas fa-moon" style="color: #999;"></i><div class="thumb"></div></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-[var(--text-muted)] font-bold text-[10px] uppercase tracking-widest">Layout:</span>
+                    <button id="rtl-toggle-mobile" class="text-[10px] font-black text-[var(--text-main)] bg-[var(--bg-secondary)] border border-[var(--border-color)] px-3 py-1.5 rounded-full hover:border-[var(--accent-color)]">LTR / RTL</button>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto">
+                <a href="login.html" class="btn btn-outline flex-1 !rounded-xl !py-3">Client Login</a>
+                <a href="register.html" class="btn btn-solid flex-1 !rounded-xl !py-3">Register Now</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        
+        <section class="pt-[90px] lg:pt-[100px] bg-[var(--bg-color)] overflow-hidden">
+            <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[calc(100vh-100px)] py-12 lg:py-0">
+                    
+                    <div class="flex flex-col justify-center text-left order-2 lg:order-1 max-w-2xl mx-auto lg:mx-0">
+                        <div class="inline-flex items-center gap-3 mb-6">
+                            <span class="text-xs sm:text-sm font-black tracking-[0.2em] uppercase text-[var(--accent-color)] bg-[var(--menu-hover-bg)] px-3 py-1.5 rounded-md">Science-Backed Nutrition</span>
+                        </div>
+                        
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] mb-6 text-[var(--text-main)] tracking-tighter">
+                            Nourish their <br>
+                            <span class="text-[var(--accent-color)]">wild side.</span>
+                        </h1>
+                        
+                        <p class="text-[var(--text-muted)] text-base sm:text-lg md:text-xl leading-relaxed mb-8 font-medium">
+                            Elevate your dog's vitality with custom-portioned raw diets, nutrient-dense kibble, and premium supplements delivered straight to your door.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                            <a href="shop.html" class="btn btn-solid !py-4 !px-8 !text-sm shadow-xl shadow-violet-500/20">Shop All Products</a>
+                            <a href="quiz.html" class="btn btn-outline !py-4 !px-8 !text-sm"><i class="fas fa-clipboard-list mr-2 text-[var(--accent-color)]"></i> Take The Quiz</a>
+                        </div>
+                        
+                        <div class="mt-12 flex items-center gap-6 pt-8 border-t border-[var(--border-color)]">
+                            <div class="flex -space-x-4">
+                                <img class="w-12 h-12 rounded-full border-4 border-[var(--bg-color)] object-cover" src="images/pexels-sims1217-11683916.jpg" alt="User">
+                                <img class="w-12 h-12 rounded-full border-4 border-[var(--bg-color)] object-cover" src="images/pexels-pixabay-64284.jpg" alt="User">
+                                <img class="w-12 h-12 rounded-full border-4 border-[var(--bg-color)] object-cover" src="images/pexels-tima-miroshnichenko-6235231.jpg" alt="User">
+                                <div class="w-12 h-12 rounded-full border-4 border-[var(--bg-color)] bg-[var(--bg-secondary)] flex items-center justify-center text-[var(--text-main)] font-black text-xs">10k+</div>
+                            </div>
+                            <div class="text-sm">
+                                <div class="flex text-[var(--accent-color)] mb-1 text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                                <p class="font-bold text-[var(--text-main)]">Trusted by owners</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative order-1 lg:order-2 h-[400px] sm:h-[500px] lg:h-[calc(100vh-140px)] w-full max-h-[800px]">
+                        <div class="absolute inset-0 bg-[var(--accent-color)] rounded-[40px] rotate-3 opacity-20 dark:opacity-10 scale-95 origin-bottom"></div>
+                        <img src="images/pexels-yaroslav-shuraev-9632399.jpg" alt="Healthy Dog" class="absolute inset-0 w-full h-full object-cover rounded-[32px] shadow-2xl border border-[var(--border-color)] z-10">
+                        
+                        <div class="absolute top-10 -left-6 lg:-left-12 bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-2xl shadow-xl flex items-center gap-4 z-20 animate-bounce" style="animation-duration: 3s;">
+                            <div class="w-10 h-10 rounded-full bg-[#10b981]/10 text-[#10b981] flex items-center justify-center text-lg shrink-0">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest">Ingredients</p>
+                                <p class="text-sm font-black text-[var(--text-main)] leading-tight">100% Natural</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 lg:py-32 bg-[var(--bg-secondary)] border-y border-[var(--border-color)]">
+            <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+                
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-[var(--accent-color)] font-bold tracking-widest uppercase text-xs mb-2 block">Our Catalog</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-[var(--text-main)] tracking-tight">Everything they need to thrive.</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                    
+                    <a href="shop.html?category=dry" class="group relative h-80 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--border-color)]">
+                        <img src="images/pexels-cottonbro-3661194.jpg" alt="Dry Food" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 w-full p-8">
+                            <h3 class="text-2xl font-black text-white mb-2">Premium Kibble</h3>
+                            <p class="text-white/80 text-sm font-medium mb-4">High-protein dry formulas for daily energy.</p>
+                            <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Shop Now <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i></span>
+                        </div>
+                    </a>
+
+                    <a href="shop.html?category=raw" class="group relative h-80 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--border-color)]">
+                        <img src="images/pexels-vidalbalielojrfotografia-2337770.jpg" alt="Raw Diet" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 w-full p-8">
+                            <h3 class="text-2xl font-black text-white mb-2">Raw Infused</h3>
+                            <p class="text-white/80 text-sm font-medium mb-4">Freeze-dried raw ingredients for peak muscle recovery.</p>
+                            <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Shop Now <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i></span>
+                        </div>
+                    </a>
+
+                    <a href="shop.html?category=supplements" class="group relative h-80 rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[var(--border-color)]">
+                        <img src="images/pexels-lucaspezeta-9566273.jpg" alt="Supplements" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 w-full p-8">
+                            <h3 class="text-2xl font-black text-white mb-2">Supplements</h3>
+                            <p class="text-white/80 text-sm font-medium mb-4">Omega-3s, joint care, and coat health isolates.</p>
+                            <span class="text-[var(--accent-color)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Shop Now <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i></span>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-20 lg:py-32 bg-[var(--bg-color)]">
+            <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+                
+                <div class="flex flex-col items-center text-center mb-16 border-b border-[var(--border-color)] pb-10">
+                    <span class="text-[var(--accent-color)] font-bold tracking-widest uppercase text-xs mb-3 block">Veterinary Formulated</span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[var(--text-main)] tracking-tight mb-4 max-w-3xl">Crafted with Canine Biology in Mind.</h2>
+                    <p class="text-[var(--text-muted)] text-lg font-medium max-w-2xl mb-8">We source the highest quality proteins, healthy fats, and complex carbohydrates to ensure maximum nutrient absorption and zero filler waste.</p>
+                    
+                    <div class="shrink-0 flex items-center gap-4">
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-[var(--bg-card)] border-2 border-[var(--border-color)] flex items-center justify-center text-[var(--text-main)] text-sm shadow-sm"><i class="fas fa-microscope"></i></div>
+                            <div class="w-10 h-10 rounded-full bg-[var(--bg-card)] border-2 border-[var(--border-color)] flex items-center justify-center text-[var(--text-main)] text-sm shadow-sm"><i class="fas fa-dna"></i></div>
+                            <div class="w-10 h-10 rounded-full bg-[var(--bg-card)] border-2 border-[var(--border-color)] flex items-center justify-center text-[var(--text-main)] text-sm shadow-sm"><i class="fas fa-vial"></i></div>
+                        </div>
+                        <span class="text-sm font-black uppercase tracking-widest text-[var(--text-main)]">Lab Tested</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[24px] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                        <div class="w-14 h-14 rounded-2xl bg-[var(--menu-hover-bg)] flex items-center justify-center text-[var(--accent-color)] text-2xl mb-6 group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors duration-300 shrink-0">
+                            <i class="fas fa-drumstick-bite"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-[var(--text-main)] mb-3">Premium Proteins</h3>
+                        <p class="text-[var(--text-muted)] text-sm leading-relaxed font-medium mb-6">Our first ingredient is always responsibly sourced, real meat. We prioritize pure protein isolates to build and repair lean muscle tissue rapidly.</p>
+                        <a href="#" class="mt-auto text-[var(--accent-dark)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[24px] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                        <div class="w-14 h-14 rounded-2xl bg-[var(--menu-hover-bg)] flex items-center justify-center text-[var(--accent-color)] text-2xl mb-6 group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors duration-300 shrink-0">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-[var(--text-main)] mb-3">Rich Omega-3s</h3>
+                        <p class="text-[var(--text-muted)] text-sm leading-relaxed font-medium mb-6">Loaded with wild-caught fish oils to heavily lubricate joints, significantly reduce inflammation, and guarantee a brilliant, shining coat.</p>
+                        <a href="#" class="mt-auto text-[var(--accent-dark)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[24px] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                        <div class="w-14 h-14 rounded-2xl bg-[var(--menu-hover-bg)] flex items-center justify-center text-[var(--accent-color)] text-2xl mb-6 group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors duration-300 shrink-0">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-[var(--text-main)] mb-3">Complex Carbs</h3>
+                        <p class="text-[var(--text-muted)] text-sm leading-relaxed font-medium mb-6">No corn, no wheat, no soy. We utilize sweet potatoes and brown rice for sustained, crash-free energy during long runs and active play.</p>
+                        <a href="#" class="mt-auto text-[var(--accent-dark)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[24px] p-8 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                        <div class="w-14 h-14 rounded-2xl bg-[var(--menu-hover-bg)] flex items-center justify-center text-[var(--accent-color)] text-2xl mb-6 group-hover:bg-[var(--accent-color)] group-hover:text-white transition-colors duration-300 shrink-0">
+                            <i class="fas fa-shield-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-black text-[var(--text-main)] mb-3">Gut Biome Support</h3>
+                        <p class="text-[var(--text-muted)] text-sm leading-relaxed font-medium mb-6">Infused with active probiotics and natural fiber blends to ensure optimal digestion, nutrient absorption, and a robust immune system.</p>
+                        <a href="#" class="mt-auto text-[var(--accent-dark)] font-bold text-xs uppercase tracking-widest flex items-center gap-2">Learn More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 lg:py-32 bg-[var(--bg-secondary)] border-t border-[var(--border-color)]">
+            <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+                
+                <div class="text-center mb-16">
+                    <span class="text-[var(--accent-color)] font-bold tracking-widest uppercase text-xs mb-3 block">Top Sellers</span>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[var(--text-main)] tracking-tight mb-4">Peak Performance Formulations.</h2>
+                    <p class="text-[var(--text-muted)] text-lg font-medium max-w-2xl mx-auto">Explore our highest-rated blends and isolates, trusted by agility trainers and everyday active pet owners alike.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 hover:border-[var(--accent-color)]">
+                        <div class="relative h-56 bg-[var(--bg-secondary)] overflow-hidden shrink-0">
+                            <div class="absolute top-4 left-4 z-10 bg-black text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">Bestseller</div>
+                            <img src="images/pexels-tima-miroshnichenko-6235005.jpg" alt="Beef Formula" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90">
+                        </div>
+                        <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                            <div class="flex text-[var(--accent-color)] text-xs mb-3 gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span class="text-[var(--text-muted)] ml-2">(1.2k)</span></div>
+                            <h3 class="text-lg font-black text-[var(--text-main)] mb-1 leading-tight">Grass-Fed Beef Raw Isolate</h3>
+                            <p class="text-xs text-[var(--text-muted)] font-medium mb-6">45% Pure Protein | High Energy</p>
+                            
+                            <div class="mt-auto flex items-center justify-between gap-2">
+                                <span class="text-lg lg:text-xl font-black text-[var(--text-main)]">$85.00</span>
+                                <button class="btn btn-solid !py-2 !px-3 lg:!px-4 !text-[10px] !rounded-xl shadow-lg shadow-violet-500/30 shrink-0 whitespace-nowrap">Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 hover:border-[var(--accent-color)]">
+                        <div class="relative h-56 bg-[var(--bg-secondary)] overflow-hidden shrink-0">
+                            <img src="images/pexels-lucaspezeta-9566273.jpg" alt="Salmon Oil" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90">
+                        </div>
+                        <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                            <div class="flex text-[var(--accent-color)] text-xs mb-3 gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i> <span class="text-[var(--text-muted)] ml-2">(842)</span></div>
+                            <h3 class="text-lg font-black text-[var(--text-main)] mb-1 leading-tight">Alaskan Salmon Oil Pump</h3>
+                            <p class="text-xs text-[var(--text-muted)] font-medium mb-6">Liquid Omega-3 | Joint Lubrication</p>
+                            
+                            <div class="mt-auto flex items-center justify-between gap-2">
+                                <span class="text-lg lg:text-xl font-black text-[var(--text-main)]">$32.50</span>
+                                <button class="btn btn-solid !py-2 !px-3 lg:!px-4 !text-[10px] !rounded-xl shadow-lg shadow-violet-500/30 shrink-0 whitespace-nowrap">Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 hover:border-[var(--accent-color)]">
+                        <div class="relative h-56 bg-[var(--bg-secondary)] overflow-hidden shrink-0">
+                            <div class="absolute top-4 left-4 z-10 bg-[var(--accent-color)] text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">New Formula</div>
+                            <img src="images/pexels-cottonbro-3661194.jpg" alt="Recovery Kibble" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90">
+                        </div>
+                        <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                            <div class="flex text-[var(--accent-color)] text-xs mb-3 gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span class="text-[var(--text-muted)] ml-2">(156)</span></div>
+                            <h3 class="text-lg font-black text-[var(--text-main)] mb-1 leading-tight">Post-Activity Recovery Blend</h3>
+                            <p class="text-xs text-[var(--text-muted)] font-medium mb-6">Turkey & Sweet Potato | Rapid Repair</p>
+                            
+                            <div class="mt-auto flex items-center justify-between gap-2">
+                                <span class="text-lg lg:text-xl font-black text-[var(--text-main)]">$64.00</span>
+                                <button class="btn btn-solid !py-2 !px-3 lg:!px-4 !text-[10px] !rounded-xl shadow-lg shadow-violet-500/30 shrink-0 whitespace-nowrap">Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden flex flex-col group hover:shadow-2xl transition-all duration-500 hover:border-[var(--accent-color)]">
+                        <div class="relative h-56 bg-[var(--bg-secondary)] overflow-hidden shrink-0">
+                            <img src="images/pexels-vidalbalielojrfotografia-2337770.jpg" alt="Chicken Mix" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90">
+                        </div>
+                        <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                            <div class="flex text-[var(--accent-color)] text-xs mb-3 gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> <span class="text-[var(--text-muted)] ml-2">(412)</span></div>
+                            <h3 class="text-lg font-black text-[var(--text-main)] mb-1 leading-tight">Lean Chicken & Rice Base</h3>
+                            <p class="text-xs text-[var(--text-muted)] font-medium mb-6">Low Fat Formula | Weight Management</p>
+                            
+                            <div class="mt-auto flex items-center justify-between gap-2">
+                                <span class="text-lg lg:text-xl font-black text-[var(--text-main)]">$58.99</span>
+                                <button class="btn btn-solid !py-2 !px-3 lg:!px-4 !text-[10px] !rounded-xl shadow-lg shadow-violet-500/30 shrink-0 whitespace-nowrap">Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="mt-12 text-center">
+                    <a href="shop.html" class="inline-flex items-center text-[var(--text-main)] font-black text-sm uppercase tracking-widest hover:text-[var(--accent-color)] transition-colors border-b-2 border-transparent hover:border-[var(--accent-color)] pb-1">
+                        Explore Full Store <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 lg:py-32 bg-[var(--bg-color)] border-t border-[var(--border-color)] overflow-hidden">
+            <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+                
+                <div class="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[40px] p-8 lg:p-16 relative overflow-hidden shadow-sm">
+                    <div class="absolute -top-40 -right-40 w-96 h-96 bg-[var(--accent-color)] rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+                        
+                        <div class="order-2 lg:order-1">
+                            <span class="text-[var(--accent-color)] font-bold tracking-widest uppercase text-xs mb-3 block">Auto-Delivery</span>
+                            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[var(--text-main)] tracking-tight mb-6">Never run out of fuel.</h2>
+                            <p class="text-[var(--text-muted)] text-lg font-medium mb-10">Set up a customized delivery schedule through your private portal. Adjust macros, change delivery dates, or pause anytime with zero penalties.</p>
+                            
+                            <ul class="space-y-6 mb-10">
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-[var(--menu-hover-bg)] text-[var(--accent-dark)] flex items-center justify-center shrink-0 mt-1"><i class="fas fa-check text-sm"></i></div>
+                                    <div>
+                                        <h4 class="font-black text-[var(--text-main)] text-lg">Save 15% on every order</h4>
+                                        <p class="text-sm text-[var(--text-muted)] font-medium mt-1">Subscribers automatically receive wholesale discounts on all kibble, raw blends, and supplements.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-[var(--menu-hover-bg)] text-[var(--accent-dark)] flex items-center justify-center shrink-0 mt-1"><i class="fas fa-check text-sm"></i></div>
+                                    <div>
+                                        <h4 class="font-black text-[var(--text-main)] text-lg">Direct Vet Consultations</h4>
+                                        <p class="text-sm text-[var(--text-muted)] font-medium mt-1">Active subscribers get monthly direct chat access to our certified canine nutritionists via the dashboard.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-[var(--menu-hover-bg)] text-[var(--accent-dark)] flex items-center justify-center shrink-0 mt-1"><i class="fas fa-check text-sm"></i></div>
+                                    <div>
+                                        <h4 class="font-black text-[var(--text-main)] text-lg">Flexible Scheduling</h4>
+                                        <p class="text-sm text-[var(--text-muted)] font-medium mt-1">Going on vacation? Pause or delay a box with a single click. You maintain complete control.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <a href="register.html" class="btn btn-solid !py-4 !px-8 !text-sm shadow-xl shadow-violet-500/20">Set Up Your Subscription</a>
+                        </div>
+
+                        <div class="order-1 lg:order-2 flex justify-center lg:justify-end">
+                            <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-8 w-full max-w-md shadow-2xl relative transition-transform duration-500 hover:-translate-y-2">
+                                
+                                <div class="flex justify-between items-center border-b border-[var(--border-color)] pb-4 mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <img src="images/pexels-sims1217-11683916.jpg" alt="Avatar" class="w-10 h-10 rounded-full border border-[var(--border-color)] object-cover">
+                                        <div>
+                                            <p class="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider">Next Box For</p>
+                                            <p class="font-black text-[var(--text-main)]">Max (German Shepherd)</p>
+                                        </div>
+                                    </div>
+                                    <div class="w-8 h-8 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center text-[var(--text-main)]"><i class="fas fa-ellipsis-v"></i></div>
+                                </div>
+
+                                <div class="bg-[var(--bg-secondary)] rounded-2xl p-5 mb-6 border border-[var(--border-color)]">
+                                    <div class="flex justify-between items-end mb-4">
+                                        <div>
+                                            <p class="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-1">Delivery Date</p>
+                                            <p class="text-2xl font-black text-[var(--text-main)]">Oct 18, 2026</p>
+                                        </div>
+                                        <span class="bg-[var(--accent-color)] text-white text-[10px] font-black uppercase px-2 py-1 rounded">Processing</span>
+                                    </div>
+                                    <div class="w-full bg-[var(--border-color)] h-2 rounded-full overflow-hidden">
+                                        <div class="bg-[var(--accent-dark)] h-full w-2/3 rounded-full"></div>
+                                    </div>
+                                    <p class="text-xs text-[var(--text-muted)] font-medium text-right mt-2">Preparing to ship...</p>
+                                </div>
+
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex justify-between items-center text-sm font-medium">
+                                        <span class="text-[var(--text-main)]"><i class="fas fa-box-open w-5 text-[var(--text-muted)]"></i> Beef Isolate Bag (15lbs)</span>
+                                        <span class="text-[var(--text-main)] font-black">x1</span>
+                                    </div>
+                                    <div class="flex justify-between items-center text-sm font-medium">
+                                        <span class="text-[var(--text-main)]"><i class="fas fa-vial w-5 text-[var(--text-muted)]"></i> Salmon Oil Pump</span>
+                                        <span class="text-[var(--text-main)] font-black">x2</span>
+                                    </div>
+                                </div>
+
+                                <button class="w-full py-3 rounded-xl bg-[var(--bg-color)] border-2 border-[var(--border-color)] text-[var(--text-main)] font-bold text-sm uppercase tracking-widest hover:border-[var(--accent-color)] hover:text-[var(--accent-dark)] transition-colors">Manage Delivery</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="py-20 lg:py-32 bg-[var(--bg-secondary)] border-t border-[var(--border-color)]">
+            <div class="max-w-[1440px] mx-auto px-4 sm:px-6 text-center">
+                
+                <span class="text-[var(--accent-color)] font-bold tracking-widest uppercase text-xs mb-2 block">Community Feedback</span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[var(--text-main)] tracking-tight mb-16">Join 10,000+ Thriving Packs.</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                    
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-3xl shadow-sm hover:-translate-y-2 transition-transform duration-300 relative">
+                        <i class="fas fa-quote-right absolute top-8 right-8 text-4xl text-[var(--border-color)] opacity-50"></i>
+                        <div class="flex text-[var(--accent-color)] text-sm mb-6 gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <h4 class="text-lg font-black text-[var(--text-main)] mb-3">Transformed his coat.</h4>
+                        <p class="text-[var(--text-muted)] font-medium leading-relaxed mb-8">"Since we started the salmon oil and raw isolate subscription, his coat is incredibly thick and shiny. The vet was genuinely surprised by his joint health at his last checkup."</p>
+                        
+                        <div class="flex items-center gap-4 mt-auto border-t border-[var(--border-color)] pt-6">
+                            <div class="relative shrink-0">
+                                <img src="images/pexels-sims1217-11683916.jpg" alt="Owner" class="w-12 h-12 rounded-full object-cover border-2 border-[var(--bg-secondary)]">
+                                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-[#10b981] rounded-full border-2 border-[var(--bg-card)] flex items-center justify-center text-white text-[8px]" title="Verified Buyer"><i class="fas fa-check"></i></div>
+                            </div>
+                            <div>
+                                <p class="font-black text-[var(--text-main)] text-sm">Marcus T.</p>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mt-0.5">Golden Retriever Owner</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-3xl shadow-sm hover:-translate-y-2 transition-transform duration-300 relative">
+                        <i class="fas fa-quote-right absolute top-8 right-8 text-4xl text-[var(--border-color)] opacity-50"></i>
+                        <div class="flex text-[var(--accent-color)] text-sm mb-6 gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <h4 class="text-lg font-black text-[var(--text-main)] mb-3">Perfect for working dogs.</h4>
+                        <p class="text-[var(--text-muted)] font-medium leading-relaxed mb-8">"My husky runs 5 miles a day with me. Regular kibble wasn't cutting it. GrowwPaws calculated her macros perfectly. She has sustained energy and zero digestive issues now."</p>
+                        
+                        <div class="flex items-center gap-4 mt-auto border-t border-[var(--border-color)] pt-6">
+                            <div class="relative shrink-0">
+                                <img src="images/pexels-pixabay-64284.jpg" alt="Owner" class="w-12 h-12 rounded-full object-cover border-2 border-[var(--bg-secondary)]">
+                                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-[#10b981] rounded-full border-2 border-[var(--bg-card)] flex items-center justify-center text-white text-[8px]" title="Verified Buyer"><i class="fas fa-check"></i></div>
+                            </div>
+                            <div>
+                                <p class="font-black text-[var(--text-main)] text-sm">Elena R.</p>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mt-0.5">Husky Owner</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="h-full flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] p-8 rounded-3xl shadow-sm hover:-translate-y-2 transition-transform duration-300 relative">
+                        <i class="fas fa-quote-right absolute top-8 right-8 text-4xl text-[var(--border-color)] opacity-50"></i>
+                        <div class="flex text-[var(--accent-color)] text-sm mb-6 gap-1"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                        <h4 class="text-lg font-black text-[var(--text-main)] mb-3">The dashboard is genius.</h4>
+                        <p class="text-[var(--text-muted)] font-medium leading-relaxed mb-8">"Not only is the food top-tier, but the user dashboard lets me easily pause deliveries when I travel. The chat feature with the canine nutritionist is a massive bonus."</p>
+                        
+                        <div class="flex items-center gap-4 mt-auto border-t border-[var(--border-color)] pt-6">
+                            <div class="relative shrink-0">
+                                <img src="images/pexels-tima-miroshnichenko-6235231.jpg" alt="Owner" class="w-12 h-12 rounded-full object-cover border-2 border-[var(--bg-secondary)]">
+                                <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-[#10b981] rounded-full border-2 border-[var(--bg-card)] flex items-center justify-center text-white text-[8px]" title="Verified Buyer"><i class="fas fa-check"></i></div>
+                            </div>
+                            <div>
+                                <p class="font-black text-[var(--text-main)] text-sm">Julian B.</p>
+                                <p class="text-xs text-[var(--text-muted)] font-medium mt-0.5">Bulldog Owner</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[var(--accent-color)] border-t border-black/10 pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-12">
+                
+                <div class="lg:col-span-4 pr-0 lg:pr-8">
+                    <a href="index.html" class="text-xl lg:text-2xl font-black tracking-tighter text-white block mb-6">
+                        GrowwPaws
+                    </a>
+                    <p class="text-white/90 leading-relaxed text-sm mb-8 font-medium max-w-sm">
+                        Providing top-tier nutrition, wellness supplements, and holistic supplies to keep your pets strong, active, and thriving throughout their lives.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-transparent flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-transparent flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-transparent flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-10">
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Store</h4>
+                        <ul class="space-y-4">
+                            <li><a href="shop.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Shop All Food</a></li>
+                            <li><a href="shop.html?category=supplements" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Vitamins & Supplements</a></li>
+                            <li><a href="shop.html?category=treats" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Training Treats</a></li>
+                            <li><a href="quiz.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Find The Right Food</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Pet Owners</h4>
+                        <ul class="space-y-4">
+                            <li><a href="dashboard.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">My Dashboard</a></li>
+                            <li><a href="pet-profiles.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Manage Pet Profiles</a></li>
+                            <li><a href="subscriptions.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Manage Deliveries</a></li>
+                            <li><a href="education.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Nutrition Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Contact</h4>
+                        <ul class="space-y-4 text-white/90 text-sm font-medium">
+                            <li class="flex items-start gap-3 hover:text-black transition-colors cursor-pointer">
+                                <i class="fas fa-phone mt-1"></i>
+                                <span>1-800-555-PAWS</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:text-black transition-colors cursor-pointer">
+                                <i class="fas fa-envelope mt-1"></i>
+                                <span>support@growwpaws.com</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:text-black transition-colors cursor-pointer">
+                                <i class="fas fa-location-dot mt-1"></i>
+                                <span>123 Healthy Pet Way,<br>Nutrition City, CA 90210</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-white/80 font-medium">&copy; 2026 GrowwPaws Nutrition. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-sm text-white/80 hover:text-black font-medium transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-sm text-white/80 hover:text-black font-medium transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fullscreen Menu Logic
+        const mobileBtn = document.getElementById('mobile-btn'); 
+        const fullscreenMenu = document.getElementById('fullscreen-menu'); 
+        const closeMenu = document.getElementById('close-menu'); 
+        
+        function toggleMenu() { 
+            fullscreenMenu.classList.toggle('active'); 
+            document.body.style.overflow = fullscreenMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+        
+        mobileBtn.onclick = toggleMenu; 
+        closeMenu.onclick = toggleMenu; 
+        
+        // Theme Logic
+        const themeDesktop = document.getElementById('theme-toggle-desktop');
+        const themeMobile = document.getElementById('theme-toggle-mobile'); 
+        const theme = localStorage.getItem('theme') || 'light';
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode'); 
+                if(themeMobile) themeMobile.classList.add('active');
+            } else {
+                document.body.classList.remove('dark-mode');
+                if(themeMobile) themeMobile.classList.remove('active');
+            }
+        }
+        
+        updateThemeUI(theme === 'dark');
+        
+        function toggleTheme() { 
+            const isDark = !document.body.classList.contains('dark-mode');
+            updateThemeUI(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
+        }
+        
+        themeDesktop.onclick = toggleTheme; 
+        if(themeMobile) themeMobile.onclick = toggleTheme;
+        
+        // RTL Logic
+        const rtlBtn = document.getElementById('rtl-btn'); 
+        const rtlMobile = document.getElementById('rtl-toggle-mobile'); 
+        const dir = localStorage.getItem('dir') || 'ltr';
+        
+        if (dir === 'rtl') { document.documentElement.dir = 'rtl'; }
+        
+        function toggleRTL() { 
+            const isRTL = document.documentElement.dir === 'rtl'; 
+            document.documentElement.dir = isRTL ? 'ltr' : 'rtl'; 
+            localStorage.setItem('dir', isRTL ? 'ltr' : 'rtl'); 
+        }
+        
+        rtlBtn.onclick = toggleRTL; 
+        if(rtlMobile) rtlMobile.onclick = toggleRTL;
+    </script>
+</body>
+</html>

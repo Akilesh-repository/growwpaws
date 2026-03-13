@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - GrowwPaws</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="images/growwpark_logo.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === RESET & CORE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* === THEME VARIABLES (Lavender & Slate) === */
+        :root {
+            --bg-color: #FFFFFF;
+            --bg-secondary: #F1F5F9; 
+            --bg-card: #FFFFFF; 
+            --text-main: #0F172A; 
+            --text-muted: #64748B; 
+            --accent-color: #A78BFA; 
+            --accent-dark: #8B5CF6; 
+            --border-color: #CBD5E1; 
+            --drawer-bg: #FFFFFF;
+            --drawer-text: #0F172A;
+            --menu-hover-bg: rgba(167, 139, 250, 0.1); 
+        }
+
+        /* DARK MODE */
+        body.dark-mode {
+            --bg-color: #0F172A; 
+            --bg-secondary: #1E293B; 
+            --bg-card: #1E293B; 
+            --text-main: #F8FAFC; 
+            --text-muted: #94A3B8; 
+            --accent-color: #C4B5FD; 
+            --accent-dark: #A78BFA; 
+            --border-color: #334155; 
+            --drawer-bg: #0F172A;
+            --drawer-text: #F8FAFC;
+            --menu-hover-bg: rgba(196, 181, 253, 0.15); 
+        }
+
+        /* RTL SUPPORT */
+        [dir="rtl"] { text-align: right; }
+        [dir="rtl"] .fa-arrow-right { transform: rotate(180deg); }
+
+        /* PILL TOGGLE */
+        .theme-toggle-pill { width: 48px; height: 24px; background: rgba(0,0,0,0.15); border-radius: 30px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; border: 1px solid rgba(255, 255, 255, 0.4); transition: all 0.3s; }
+        .theme-toggle-pill:hover { border-color: black; background: rgba(0,0,0,0.3); }
+        .theme-toggle-pill i { font-size: 10px; z-index: 1; color: white; }
+        .theme-toggle-pill .thumb { position: absolute; top: 1px; left: 2px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1); box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        
+        /* Dark Mode toggle positioning */
+        body.dark-mode .theme-toggle-pill .thumb { transform: translateX(24px); background: #0F172A; }
+
+        /* BUTTONS - Fixed to prevent jumping */
+        .btn { padding: 8px 20px; font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 9999px; }
+        /* Added transparent border so heights perfectly match the outline button */
+        .btn-solid { background: var(--accent-color); color: #FFFFFF; border: 2px solid transparent; }
+        .btn-solid:hover { background: var(--accent-dark); box-shadow: 0 10px 15px -3px rgba(167, 139, 250, 0.3); }
+        .btn-outline { border: 2px solid var(--text-main); color: var(--text-main); background: transparent; }
+        .btn-outline:hover { background: var(--text-main); color: var(--bg-color); }
+
+        /* FULLSCREEN OVERLAY MENU */
+        .fullscreen-menu { 
+            position: fixed; inset: 0; background: var(--drawer-bg); z-index: 1001; 
+            display: flex; flex-direction: column; color: var(--drawer-text); 
+            opacity: 0; visibility: hidden; transform: scale(0.98); 
+            transition: all 0.3s ease; overflow-y: auto; 
+        }
+        .fullscreen-menu.active { opacity: 1; visibility: visible; transform: scale(1); }
+        .mobile-link { font-size: 1.125rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-main); text-decoration: none; transition: all 0.3s; }
+        .mobile-link:hover { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 left-0 w-full z-[1000] bg-[var(--accent-color)] border-b border-black/10 shadow-md transition-all duration-300">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 lg:py-4 flex items-center justify-between">
+            
+            <a href="index.html" class="text-xl lg:text-2xl font-black tracking-tighter text-white">
+                GrowwPaws
+            </a>
+            
+            <div class="hidden xl:flex items-center gap-6 text-xs font-black uppercase tracking-wide text-white h-full">
+                
+                <div class="group relative py-4 cursor-pointer">
+                    <span class="hover:text-black transition-colors flex items-center gap-1">Home <i class="fas fa-chevron-down text-[8px]"></i></span>
+                    <div class="absolute top-[100%] left-1/2 -translate-x-1/2 pt-2 w-40 hidden group-hover:block z-50">
+                        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="index.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">Home Page 1</a>
+                            <a href="home-2.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">Home Page 2</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="about.html" class="hover:text-black transition-colors py-4">About</a>
+                <a href="services.html" class="text-black transition-colors py-4">Services</a>
+                <a href="pricing.html" class="hover:text-black transition-colors py-4">Pricing</a>
+                <a href="blog.html" class="hover:text-black transition-colors py-4">Blog</a>
+                <a href="faq.html" class="hover:text-black transition-colors py-4">FAQ</a>
+                <a href="contact.html" class="hover:text-black transition-colors py-4">Contact</a>
+
+                <div class="group relative py-4 cursor-pointer">
+                    <span class="hover:text-black transition-colors flex items-center gap-1">Dashboard <i class="fas fa-chevron-down text-[8px]"></i></span>
+                    <div class="absolute top-[100%] left-1/2 -translate-x-1/2 pt-2 w-44 hidden group-hover:block z-50">
+                        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-xl p-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <a href="user.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">User Dashboard</a>
+                            <a href="admin.html" class="px-3 py-2 text-[var(--text-main)] hover:bg-[var(--menu-hover-bg)] hover:text-[var(--accent-color)] rounded-lg transition">Admin Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden xl:flex items-center gap-4">
+                <a href="login.html" class="text-[11px] font-black uppercase tracking-widest text-white hover:text-black transition-colors">Login</a>
+                <a href="register.html" class="bg-white text-black hover:bg-black hover:text-white py-2 px-5 rounded-full font-black uppercase tracking-widest text-[11px] transition-all duration-300 shadow-md">Register</a>
+                
+                <div class="w-px h-5 bg-white/30 mx-1"></div>
+                
+                <button id="rtl-btn" class="text-[9px] font-black text-white border border-white hover:bg-black hover:border-black hover:text-white px-2 py-1.5 rounded-full transition-all duration-300 uppercase tracking-widest">RTL</button>
+                <div id="theme-toggle-desktop" class="theme-toggle-pill"><i class="fas fa-sun"></i><i class="fas fa-moon"></i><div class="thumb"></div></div>
+            </div>
+
+            <button id="mobile-btn" class="xl:hidden w-10 h-10 rounded-full border border-white flex items-center justify-center text-white hover:bg-black hover:border-black hover:text-white transition-all duration-300">
+                <i class="fas fa-bars text-sm"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="fullscreen-menu" id="fullscreen-menu">
+        <div class="w-full px-6 py-4 flex justify-between items-center border-b border-[var(--border-color)] shrink-0">
+            <span class="text-xl font-black tracking-tighter text-[var(--text-main)]">GrowwPaws</span>
+            <button id="close-menu" class="w-9 h-9 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-all text-[var(--text-main)]">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+        </div>
+
+        <div class="flex flex-col items-center justify-start space-y-4 py-8 w-full max-w-md mx-auto text-center px-6 my-auto shrink-0">
+            <a href="index.html" class="mobile-link">Home Page 1</a>
+            <a href="home-2.html" class="mobile-link">Home Page 2</a>
+            <a href="about.html" class="mobile-link">About</a>
+            <a href="services.html" class="mobile-link" style="color: var(--accent-color);">Services</a>
+            <a href="pricing.html" class="mobile-link">Pricing</a>
+            <a href="blog.html" class="mobile-link">Blog</a>
+            <a href="faq.html" class="mobile-link">FAQ</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            
+            <div class="w-12 h-px bg-[var(--border-color)] my-1"></div>
+            
+            <a href="user.html" class="mobile-link">User Dashboard</a>
+            <a href="admin.html" class="mobile-link">Admin Dashboard</a>
+        </div>
+
+        <div class="w-full px-6 py-5 border-t border-[var(--border-color)] flex flex-col gap-4 shrink-0">
+            <div class="flex justify-between items-center max-w-md mx-auto w-full">
+                <div class="flex items-center gap-3">
+                    <span class="text-[var(--text-muted)] font-bold text-[10px] uppercase tracking-widest">Theme:</span>
+                    <div id="theme-toggle-mobile" class="theme-toggle-pill" style="border-color: var(--border-color);"><i class="fas fa-sun" style="color: #f59e0b;"></i><i class="fas fa-moon" style="color: #999;"></i><div class="thumb"></div></div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-[var(--text-muted)] font-bold text-[10px] uppercase tracking-widest">Layout:</span>
+                    <button id="rtl-toggle-mobile" class="text-[10px] font-black text-[var(--text-main)] bg-[var(--bg-secondary)] border border-[var(--border-color)] px-3 py-1.5 rounded-full hover:border-[var(--accent-color)]">LTR / RTL</button>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3 w-full max-w-md mx-auto">
+                <a href="login.html" class="btn btn-outline flex-1 !rounded-xl !py-3">Client Login</a>
+                <a href="register.html" class="btn btn-solid flex-1 !rounded-xl !py-3">Register Now</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="relative w-full overflow-hidden flex flex-col justify-center min-h-screen pt-[70px] lg:pt-[80px] pb-10">
+        <div class="absolute inset-0 z-0">
+            <img src="images/pexels-tima-miroshnichenko-6235648.jpg" alt="Veterinary professional examining dog" class="w-full h-full object-cover object-[70%_top]" />
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 w-full max-w-[1440px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center my-auto">
+            
+            <div class="flex flex-col justify-center text-left py-12 lg:py-16">
+                <div class="inline-flex items-center gap-3 mb-4 lg:mb-6">
+                    <div class="h-[2px] w-12 bg-[var(--accent-color)]"></div>
+                    <span class="text-xs sm:text-sm font-black tracking-[0.2em] uppercase text-[var(--accent-color)]">Premium Services</span>
+                </div>
+                
+                <h1 class="text-5xl sm:text-6xl lg:text-6xl xl:text-7xl font-black leading-[1.05] mb-4 lg:mb-6 text-white tracking-tighter">
+                    Beyond Just Kibble.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-color)] to-white">Complete Care.</span>
+                </h1>
+                
+                <p class="text-slate-300 text-sm sm:text-base md:text-lg leading-relaxed mb-6 lg:mb-8 max-w-lg font-medium border-l-2 border-[var(--accent-color)] pl-5 py-1">
+                    From custom macro-calculations and automated recurring deliveries to expert veterinary guidance. We provide the complete infrastructure your athlete needs to perform.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="quiz.html" class="btn bg-white text-slate-900 hover:bg-[var(--accent-color)] hover:text-white text-xs sm:text-sm px-8 py-4 shadow-xl">Get A Custom Plan</a>
+                    <a href="dashboard.html" class="btn border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-xs sm:text-sm px-8 py-4"><i class="fas fa-boxes-packing text-[var(--accent-color)] mr-2"></i> Setup Subscription</a>
+                </div>
+            </div>
+
+            <div class="hidden lg:flex flex-col justify-center items-end">
+                <div class="bg-black/30 backdrop-blur-xl border border-white/10 p-5 xl:p-6 rounded-3xl max-w-xs text-white shadow-2xl">
+                    <div class="flex items-center gap-4 mb-3 xl:mb-4">
+                        <div class="w-12 h-12 xl:w-14 xl:h-14 rounded-2xl bg-[var(--accent-color)] flex items-center justify-center text-xl xl:text-2xl shadow-lg shadow-violet-500/30">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <p class="font-black text-lg xl:text-xl leading-tight">Smart Subscriptions</p>
+                            <p class="text-[9px] xl:text-[10px] uppercase tracking-widest text-slate-300 mt-1">Never Run Out</p>
+                        </div>
+                    </div>
+                    <p class="text-xs xl:text-sm text-slate-300 leading-relaxed font-medium">Set your schedule through the dashboard and we'll ensure fresh, high-protein meals arrive right on time, every time.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="py-20 lg:py-32 bg-[var(--bg-color)]">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+            
+            <div class="text-center mb-16 lg:mb-20 max-w-2xl mx-auto">
+                <span class="text-[var(--accent-color)] font-bold tracking-widest uppercase text-xs mb-3 block">What We Offer</span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-[var(--text-main)] tracking-tight">Ecosystem of Wellness.</h2>
+                <p class="mt-4 text-[var(--text-muted)] font-medium text-lg">Everything your pet needs to thrive, built into one seamless, easy-to-manage platform.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+                
+                <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                    <div class="relative h-64 lg:h-72 overflow-hidden shrink-0 bg-[var(--bg-secondary)]">
+                        <img src="images/pexels-yaroslav-shuraev-9632399.jpg" alt="Macro Profiling" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 lg:p-10 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Custom Macro Profiling</h3>
+                        <p class="text-[var(--text-muted)] leading-relaxed font-medium mb-8">Take our vet-developed assessment to identify your dog's exact daily caloric, protein, and fat needs based on their activity levels.</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-[var(--border-color)]">
+                            <a href="services-details.html" class="btn btn-outline w-full !py-4 text-sm hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] hover:text-white transition-colors">View Service</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                    <div class="relative h-64 lg:h-72 overflow-hidden shrink-0 bg-[var(--bg-secondary)]">
+                        <img src="images/pexels-vidalbalielojrfotografia-2337770.jpg" alt="Automated Deliveries" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 lg:p-10 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Smart Subscriptions</h3>
+                        <p class="text-[var(--text-muted)] leading-relaxed font-medium mb-8">Set your recurring delivery dates from your dashboard. Never run out of high-yield protein or essential supplements again.</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-[var(--border-color)]">
+                            <a href="services-details.html" class="btn btn-outline w-full !py-4 text-sm hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] hover:text-white transition-colors">View Service</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                    <div class="relative h-64 lg:h-72 overflow-hidden shrink-0 bg-[var(--bg-secondary)]">
+                        <img src="images/pexels-anntarazevich-14751278.jpg" alt="Veterinary Consultations" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 lg:p-10 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Vet Nutrition Consults</h3>
+                        <p class="text-[var(--text-muted)] leading-relaxed font-medium mb-8">Schedule a 1-on-1 virtual consultation with our veterinary experts to address specific allergies, weight management, or digestion issues.</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-[var(--border-color)]">
+                            <a href="services-details.html" class="btn btn-outline w-full !py-4 text-sm hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] hover:text-white transition-colors">View Service</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                    <div class="relative h-64 lg:h-72 overflow-hidden shrink-0 bg-[var(--bg-secondary)]">
+                        <img src="images/pexels-lucaspezeta-9566273.jpg" alt="Joint Assessments" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 lg:p-10 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Joint & Mobility Plans</h3>
+                        <p class="text-[var(--text-muted)] leading-relaxed font-medium mb-8">Customized regimens focusing heavily on high-concentration Omega-3s to lubricate joints and extend the athletic lifespan of working breeds.</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-[var(--border-color)]">
+                            <a href="services-details.html" class="btn btn-outline w-full !py-4 text-sm hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] hover:text-white transition-colors">View Service</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                    <div class="relative h-64 lg:h-72 overflow-hidden shrink-0 bg-[var(--bg-secondary)]">
+                        <img src="images/pexels-yaroslav-shuraev-9632588.jpg" alt="Raw Food Integration" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 lg:p-10 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Raw Diet Integration</h3>
+                        <p class="text-[var(--text-muted)] leading-relaxed font-medium mb-8">Safely transition your pet from standard kibble to a high-performance raw or hybrid diet with guided, step-by-step transitioning plans.</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-[var(--border-color)]">
+                            <a href="services-details.html" class="btn btn-outline w-full !py-4 text-sm hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] hover:text-white transition-colors">View Service</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full">
+                    <div class="relative h-64 lg:h-72 overflow-hidden shrink-0 bg-[var(--bg-secondary)]">
+                        <img src="images/pexels-sims1217-11683916.jpg" alt="Dashboard Tracking" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <div class="p-8 lg:p-10 flex flex-col flex-1">
+                        <h3 class="text-2xl font-black text-[var(--text-main)] mb-4">Owner Analytics Dashboard</h3>
+                        <p class="text-[var(--text-muted)] leading-relaxed font-medium mb-8">Track multiple pet profiles, monitor weight changes, log allergy symptoms, and manage your shipments directly from an intuitive portal.</p>
+                        
+                        <div class="mt-auto pt-6 border-t border-[var(--border-color)]">
+                            <a href="services-details.html" class="btn btn-outline w-full !py-4 text-sm hover:bg-[var(--accent-color)] hover:border-[var(--accent-color)] hover:text-white transition-colors">View Service</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[var(--accent-color)] border-t border-black/10 pt-16 pb-8">
+        <div class="max-w-[1440px] mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-12">
+                
+                <div class="lg:col-span-4 pr-0 lg:pr-8">
+                    <a href="index.html" class="text-xl lg:text-2xl font-black tracking-tighter text-white block mb-6">
+                        GrowwPaws
+                    </a>
+                    <p class="text-white/90 leading-relaxed text-sm mb-8 font-medium max-w-sm">
+                        Providing top-tier nutrition, wellness supplements, and holistic supplies to keep your pets strong, active, and thriving throughout their lives.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full border border-transparent flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-transparent flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full border border-transparent flex items-center justify-center bg-white text-black hover:bg-black hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-10">
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Store</h4>
+                        <ul class="space-y-4">
+                            <li><a href="shop.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Shop All Food</a></li>
+                            <li><a href="shop.html?category=supplements" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Vitamins & Supplements</a></li>
+                            <li><a href="shop.html?category=treats" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Training Treats</a></li>
+                            <li><a href="quiz.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Find The Right Food</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Pet Owners</h4>
+                        <ul class="space-y-4">
+                            <li><a href="dashboard.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">My Dashboard</a></li>
+                            <li><a href="pet-profiles.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Manage Pet Profiles</a></li>
+                            <li><a href="subscriptions.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Manage Deliveries</a></li>
+                            <li><a href="education.html" class="text-white/90 text-sm font-medium hover:text-black transition-colors">Nutrition Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Contact</h4>
+                        <ul class="space-y-4 text-white/90 text-sm font-medium">
+                            <li class="flex items-start gap-3 hover:text-black transition-colors cursor-pointer">
+                                <i class="fas fa-phone mt-1"></i>
+                                <span>1-800-555-PAWS</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:text-black transition-colors cursor-pointer">
+                                <i class="fas fa-envelope mt-1"></i>
+                                <span>support@growwpaws.com</span>
+                            </li>
+                            <li class="flex items-start gap-3 hover:text-black transition-colors cursor-pointer">
+                                <i class="fas fa-location-dot mt-1"></i>
+                                <span>123 Healthy Pet Way,<br>Nutrition City, CA 90210</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-white/80 font-medium">&copy; 2026 GrowwPaws Nutrition. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-sm text-white/80 hover:text-black font-medium transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-sm text-white/80 hover:text-black font-medium transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fullscreen Menu Logic
+        const mobileBtn = document.getElementById('mobile-btn'); 
+        const fullscreenMenu = document.getElementById('fullscreen-menu'); 
+        const closeMenu = document.getElementById('close-menu'); 
+        
+        function toggleMenu() { 
+            fullscreenMenu.classList.toggle('active'); 
+            document.body.style.overflow = fullscreenMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+        
+        mobileBtn.onclick = toggleMenu; 
+        closeMenu.onclick = toggleMenu; 
+        
+        // Theme Logic
+        const themeDesktop = document.getElementById('theme-toggle-desktop');
+        const themeMobile = document.getElementById('theme-toggle-mobile'); 
+        const theme = localStorage.getItem('theme') || 'light';
+
+        function updateThemeUI(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode'); 
+                if(themeMobile) themeMobile.classList.add('active');
+            } else {
+                document.body.classList.remove('dark-mode');
+                if(themeMobile) themeMobile.classList.remove('active');
+            }
+        }
+        
+        updateThemeUI(theme === 'dark');
+        
+        function toggleTheme() { 
+            const isDark = !document.body.classList.contains('dark-mode');
+            updateThemeUI(isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
+        }
+        
+        themeDesktop.onclick = toggleTheme; 
+        if(themeMobile) themeMobile.onclick = toggleTheme;
+        
+        // RTL Logic
+        const rtlBtn = document.getElementById('rtl-btn'); 
+        const rtlMobile = document.getElementById('rtl-toggle-mobile'); 
+        const dir = localStorage.getItem('dir') || 'ltr';
+        
+        if (dir === 'rtl') { document.documentElement.dir = 'rtl'; }
+        
+        function toggleRTL() { 
+            const isRTL = document.documentElement.dir === 'rtl'; 
+            document.documentElement.dir = isRTL ? 'ltr' : 'rtl'; 
+            localStorage.setItem('dir', isRTL ? 'ltr' : 'rtl'); 
+        }
+        
+        rtlBtn.onclick = toggleRTL; 
+        if(rtlMobile) rtlMobile.onclick = toggleRTL;
+    </script>
+</body>
+</html>
