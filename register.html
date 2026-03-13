@@ -319,11 +319,21 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <input type="password" id="password" class="input-field" placeholder="••••••••" required>
-                    <i class="fas fa-lock input-icon"></i>
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <div class="form-group" style="flex: 1; min-width: 0;">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                </div>
+
+                <div class="form-group" style="flex: 1; min-width: 0;">
+                    <label for="confirm-password">Confirm</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirm-password" class="input-field" placeholder="••••••••" required>
+                        <i class="fas fa-check-circle input-icon"></i>
+                    </div>
                 </div>
             </div>
 
@@ -397,6 +407,16 @@
         // --- FORM SUBMISSION ---
         document.getElementById('register-form').addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // Validate matching passwords
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+
             // Typically redirects to quiz or user dashboard upon successful registration
             window.location.href = 'user.html'; 
         });

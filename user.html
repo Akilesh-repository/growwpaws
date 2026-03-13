@@ -50,8 +50,8 @@
             --dash-bg: #F1F5F9; 
             --text-main: #0F172A; 
             --text-muted: #64748B;
-            --accent-color: #A78BFA; /* GrowwPaws Light Violet */
-            --accent-dark: #8B5CF6;  /* GrowwPaws Dark Violet */
+            --accent-color: #A78BFA; 
+            --accent-dark: #8B5CF6;  
             --border-color: #CBD5E1;
             
             /* Sidebar Variables */
@@ -192,6 +192,7 @@
             border-radius: 8px; 
             margin-bottom: 4px;
             transition: all 0.2s;
+            cursor: pointer;
         }
         
         .nav-item i { width: 24px; font-size: 1.1rem; text-align: center; margin-right: 14px; transition: transform 0.2s; }
@@ -298,6 +299,19 @@
         .chat-bubble { padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; }
         .chat-editor { background: var(--dash-bg); color: var(--text-main); border-bottom-left-radius: 2px; }
         .chat-author { background: var(--accent-color); color: #FFFFFF; border-bottom-right-radius: 2px; margin-left: auto; }
+
+        /* TABS LOGIC */
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        .tab-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -313,21 +327,21 @@
         
         <nav class="flex-grow">
             <p class="text-xs font-bold uppercase tracking-widest mb-3 px-4" style="color: var(--sidebar-muted);">Workspace</p>
-            <a href="user.html" class="nav-item active"><i class="fas fa-columns"></i> Dashboard</a>
+            <a class="nav-item active tab-btn" data-target="section-dashboard"><i class="fas fa-columns"></i> Dashboard</a>
             
-            <a href="#" class="nav-item">
+            <a class="nav-item tab-btn" data-target="section-pets">
                 <i class="fas fa-paw"></i> Pet Profiles 
                 <span class="ml-auto bg-white text-[var(--accent-dark)] text-[10px] px-2 py-0.5 rounded-full font-bold">1</span>
             </a>
-            <a href="#" class="nav-item"><i class="fas fa-box-open"></i> Meal Plans</a>
-            <a href="#" class="nav-item">
+            <a class="nav-item tab-btn" data-target="section-meals"><i class="fas fa-box-open"></i> Meal Plans</a>
+            <a class="nav-item tab-btn" data-target="section-chat">
                 <i class="fas fa-user-md"></i> Nutritionist Chat 
                 <span class="ml-auto bg-black/20 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">1</span>
             </a>
             
             <p class="text-xs font-bold uppercase tracking-widest mt-10 mb-3 px-4" style="color: var(--sidebar-muted);">Account</p>
-            <a href="#" class="nav-item"><i class="fas fa-file-invoice-dollar"></i> Subscriptions</a>
-            <a href="#" class="nav-item"><i class="fas fa-user-edit"></i> Account Details</a>
+            <a class="nav-item tab-btn" data-target="section-subscriptions"><i class="fas fa-file-invoice-dollar"></i> Subscriptions</a>
+            <a class="nav-item tab-btn" data-target="section-account"><i class="fas fa-user-edit"></i> Account Details</a>
             <a href="contact.html" class="nav-item"><i class="fas fa-headset"></i> Support</a>
             
             <a href="login.html" class="nav-item mt-10 !text-white hover:bg-black/10">
@@ -373,71 +387,205 @@
 
         <main class="content-area">
             
-            <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
-                <div class="hero-banner-pattern"></div>
-                <div class="relative z-10">
-                    <span class="inline-block border border-white/50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">Plan Active</span>
-                    <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Phase 2: Transition to Raw</h1>
-                    <p class="text-slate-300 text-base max-w-xl font-medium">Your nutritionist, <strong class="text-[var(--accent-color)]">Sarah Jenkins</strong>, has updated Max's macro profile based on his recent weigh-in.</p>
+            <div id="section-dashboard" class="tab-section active">
+                <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
+                    <div class="hero-banner-pattern"></div>
+                    <div class="relative z-10">
+                        <span class="inline-block border border-white/50 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">Plan Active</span>
+                        <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Phase 2: Transition to Raw</h1>
+                        <p class="text-slate-300 text-base max-w-xl font-medium">Your nutritionist, <strong class="text-[var(--accent-color)]">Sarah Jenkins</strong>, has updated Max's macro profile based on his recent weigh-in.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
+                        <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">View Macro Profile</button>
+                        <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
+                            <i class="fas fa-box-open"></i> Next Delivery: Oct 18
+                        </button>
+                    </div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
-                    <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">View Macro Profile</button>
-                    <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
-                        <i class="fas fa-box-open"></i> Next Delivery: Oct 18
-                    </button>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Transition Progress</p>
+                            <i class="fas fa-chart-line text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">75%</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 75%;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Week 3 of 4 to raw diet</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Current Weight</p>
+                            <i class="fas fa-scale-balanced text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">68.5 <span class="text-lg text-[var(--text-muted)]">lbs</span></h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 85%; background-color: var(--text-main);"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">-1.5 lbs this month (Target: 65 lbs)</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-between border-l-4 border-l-[var(--accent-color)]">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Action</p>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider" style="background: rgba(167, 139, 250, 0.1); color: var(--accent-dark);">Required</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-[var(--text-main)] mt-1">Monthly Weigh-in</h3>
+                        <p class="text-sm text-[var(--text-muted)] mt-1 line-clamp-1">Please log Max's current weight to prepare for the next batch.</p>
+                        <a href="#" class="text-[var(--accent-dark)] font-bold text-sm mt-3 hover:underline flex items-center gap-1">Log Weight <i class="fas fa-arrow-right text-xs"></i></a>
+                    </div>
+
+                    <div class="dash-card p-6 flex items-center gap-4">
+                        <img src="https://i.pravatar.cc/150?img=44" alt="Nutritionist" class="w-16 h-16 rounded-full object-cover border-2 border-[var(--border-color)] object-top">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1">Lead Nutritionist</p>
+                            <h3 class="text-lg font-bold text-[var(--text-main)] leading-tight">Sarah Jenkins</h3>
+                            <p class="text-xs text-[var(--accent-dark)] font-bold mt-1 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[var(--accent-dark)]"></span> Online Now</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 dash-card flex flex-col min-w-0">
+                        <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-bold text-[var(--text-main)]">Delivery Log & Meal Plans</h3>
+                                <p class="text-xs font-medium text-[var(--text-muted)] mt-1">Track your past boxes and upcoming tailored menus.</p>
+                            </div>
+                            <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4"><i class="fas fa-file-invoice mr-1"></i> Billing History</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto flex-grow w-full">
+                            <table class="clean-table min-w-[700px]">
+                                <thead>
+                                    <tr>
+                                        <th>Meal Batch</th>
+                                        <th>Date</th>
+                                        <th>Primary Protein</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center; width: 170px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="font-bold text-[var(--text-main)]">Box 1: Intro Mix</span></td>
+                                        <td>Sep 10</td>
+                                        <td><span class="text-[var(--text-muted)] text-sm"><i class="fas fa-drumstick-bite text-[var(--text-muted)] opacity-50 mr-1"></i> Chicken / Rice</span></td>
+                                        <td><span class="status-badge badge-success">Delivered</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-outline-table">Reorder Mix</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-bold text-[var(--text-main)]">Box 2: Transition</span></td>
+                                        <td>Sep 24</td>
+                                        <td><span class="text-[var(--text-muted)] text-sm"><i class="fas fa-cow text-[var(--text-muted)] opacity-50 mr-1"></i> Beef / Quinoa</span></td>
+                                        <td><span class="status-badge badge-success">Delivered</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-outline-table">Reorder Mix</button></td>
+                                    </tr>
+                                    <tr style="background: rgba(167, 139, 250, 0.05);">
+                                        <td><span class="font-bold text-[var(--text-main)]">Box 3: Full Raw</span></td>
+                                        <td>Oct 18</td>
+                                        <td><span class="text-[var(--accent-dark)] font-bold text-sm"><i class="fas fa-fish mr-1"></i> Salmon / Sweet Potato</span></td>
+                                        <td><span class="status-badge badge-warning">Processing</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-action">Track Box</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-bold text-[var(--text-main)]">Box 4: Maintenance</span></td>
+                                        <td>Nov 02</td>
+                                        <td><span class="text-[var(--text-muted)] text-sm">--</span></td>
+                                        <td><span class="status-badge badge-info">Locked</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-lock mr-2"></i> Locked</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-8">
+                        <div class="dash-card flex flex-col h-[400px]">
+                            <div class="p-4 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)] rounded-t-[15px]">
+                                <h3 class="font-bold text-[var(--text-main)] flex items-center gap-2">
+                                    <i class="fas fa-comment-alt text-[var(--accent-dark)]"></i> Nutritionist Chat
+                                </h3>
+                                <i class="fas fa-ellipsis-h text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors"></i>
+                            </div>
+                            
+                            <div class="flex-grow p-4 overflow-y-auto space-y-4 bg-[var(--bg-color)]">
+                                <p class="text-center text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">Yesterday</p>
+                                
+                                <div class="flex flex-col items-start">
+                                    <span class="text-[10px] text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Nutritionist) • 14:22 PM</span>
+                                    <div class="chat-bubble chat-editor border border-[var(--border-color)]">
+                                        David, incredible progress on Max's weight this week. Remember to avoid giving him extra treats during this raw transition phase.
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-col items-start mt-2">
+                                    <span class="text-[10px] text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Nutritionist) • 14:23 PM</span>
+                                    <div class="chat-bubble chat-editor border border-[var(--border-color)]">
+                                        I've unlocked his maintenance macro profile. Review the new ingredient list before the next box ships.
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col items-end mt-2">
+                                    <span class="text-[10px] text-[var(--text-muted)] mb-1 mr-1 font-bold">You • 15:45 PM</span>
+                                    <div class="chat-bubble chat-author">
+                                        Got it! He's absolutely loving the beef isolate so far. Will review the salmon list tonight.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3 border-t border-[var(--border-color)] bg-[var(--card-bg)] rounded-b-[15px] flex items-center gap-2">
+                                <button class="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors"><i class="fas fa-camera"></i></button>
+                                <input type="text" placeholder="Message Sarah..." class="flex-grow bg-[var(--dash-bg)] border border-[var(--border-color)] rounded-full px-4 py-2 text-sm text-[var(--text-main)] outline-none focus:border-[var(--accent-color)] transition-colors">
+                                <button class="bg-[var(--text-main)] text-[var(--bg-color)] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-paper-plane text-xs"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="dash-card p-6">
+                            <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Veterinary & Health Docs</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <i class="fas fa-file-medical text-[var(--text-muted)] text-xl shrink-0"></i>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-bold text-[var(--text-main)] truncate">Vet Approval - Dr. Smith</p>
+                                            <p class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider truncate">Verified Sep 01</p>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-check-circle text-[var(--accent-dark)] shrink-0"></i>
+                                </div>
+
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="flex items-center gap-3 min-w-0">
+                                        <i class="fas fa-vial text-[var(--accent-dark)] text-xl shrink-0"></i>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-bold text-[var(--text-main)] truncate">Allergy Test Results</p>
+                                            <p class="text-[10px] text-[var(--accent-dark)] uppercase tracking-wider font-bold truncate">Upload Required</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn-sm btn-outline-table shrink-0" style="width: auto; height: auto; padding: 6px 12px; font-size: 0.65rem;"><i class="fas fa-upload mr-1"></i> Upload</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-                
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Transition Progress</p>
-                        <i class="fas fa-chart-line text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">75%</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 75%;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Week 3 of 4 to raw diet</p>
-                    </div>
+            <div id="section-pets" class="tab-section">
+                <div class="dash-card p-6 flex flex-col justify-center items-center text-center py-16 w-full">
+                    <i class="fas fa-paw text-6xl text-[var(--text-muted)] mb-4 opacity-50"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)]">Pet Profiles</h3>
+                    <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md">Manage your pets' weight logs, veterinary documents, and allergy information.</p>
+                    <button class="btn-sm btn-action mt-6 w-auto !px-6"><i class="fas fa-plus mr-2"></i> Add New Pet</button>
                 </div>
-
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Current Weight</p>
-                        <i class="fas fa-scale-balanced text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">68.5 <span class="text-lg text-[var(--text-muted)]">lbs</span></h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 85%; background-color: var(--text-main);"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">-1.5 lbs this month (Target: 65 lbs)</p>
-                    </div>
-                </div>
-
-                <div class="dash-card p-6 flex flex-col justify-between border-l-4 border-l-[var(--accent-color)]">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Action</p>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider" style="background: rgba(167, 139, 250, 0.1); color: var(--accent-dark);">Required</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--text-main)] mt-1">Monthly Weigh-in</h3>
-                    <p class="text-sm text-[var(--text-muted)] mt-1 line-clamp-1">Please log Max's current weight to prepare for the next batch.</p>
-                    <a href="#" class="text-[var(--accent-dark)] font-bold text-sm mt-3 hover:underline flex items-center gap-1">Log Weight <i class="fas fa-arrow-right text-xs"></i></a>
-                </div>
-
-                <div class="dash-card p-6 flex items-center gap-4">
-                    <img src="https://i.pravatar.cc/150?img=44" alt="Nutritionist" class="w-16 h-16 rounded-full object-cover border-2 border-[var(--border-color)] object-top">
-                    <div>
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)] mb-1">Lead Nutritionist</p>
-                        <h3 class="text-lg font-bold text-[var(--text-main)] leading-tight">Jenkins nold</h3>
-                        <p class="text-xs text-[var(--accent-dark)] font-bold mt-1 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[var(--accent-dark)]"></span> Online Now</p>
-                    </div>
-                </div>
-
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <div class="lg:col-span-2 dash-card flex flex-col min-w-0">
+            <div id="section-meals" class="tab-section">
+                <div class="dash-card flex flex-col min-w-0 w-full">
                     <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center">
                         <div>
                             <h3 class="text-lg font-bold text-[var(--text-main)]">Delivery Log & Meal Plans</h3>
@@ -445,7 +593,6 @@
                         </div>
                         <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4"><i class="fas fa-file-invoice mr-1"></i> Billing History</button>
                     </div>
-                    
                     <div class="overflow-x-auto flex-grow w-full">
                         <table class="clean-table min-w-[700px]">
                             <thead>
@@ -486,91 +633,109 @@
                                     <td><span class="status-badge badge-info">Locked</span></td>
                                     <td class="text-center"><button class="btn-sm btn-disabled" disabled><i class="fas fa-lock mr-2"></i> Locked</button></td>
                                 </tr>
-                                
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex flex-col gap-8">
+            <div id="section-chat" class="tab-section">
+                <div class="dash-card flex flex-col h-[70vh] w-full">
+                    <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)] rounded-t-[15px]">
+                        <div class="flex items-center gap-4">
+                            <img src="https://i.pravatar.cc/150?img=44" alt="Nutritionist" class="w-12 h-12 rounded-full object-cover border-2 border-[var(--border-color)] object-top">
+                            <div>
+                                <h3 class="text-lg font-bold text-[var(--text-main)]">Sarah Jenkins</h3>
+                                <p class="text-xs text-[var(--accent-dark)] font-bold mt-1 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[var(--accent-dark)]"></span> Lead Nutritionist</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-ellipsis-h text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors text-xl"></i>
+                    </div>
                     
-                    <div class="dash-card flex flex-col h-[400px]">
-                        <div class="p-4 border-b border-[var(--border-color)] flex justify-between items-center bg-[var(--dash-bg)] rounded-t-[15px]">
-                            <h3 class="font-bold text-[var(--text-main)] flex items-center gap-2">
-                                <i class="fas fa-comment-alt text-[var(--accent-dark)]"></i> Nutritionist Chat
-                            </h3>
-                            <i class="fas fa-ellipsis-h text-[var(--text-muted)] cursor-pointer hover:text-[var(--text-main)] transition-colors"></i>
+                    <div class="flex-grow p-6 overflow-y-auto space-y-6 bg-[var(--bg-color)]">
+                        <p class="text-center text-xs uppercase tracking-widest text-[var(--text-muted)] font-bold">Yesterday</p>
+                        
+                        <div class="flex flex-col items-start">
+                            <span class="text-xs text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Nutritionist) • 14:22 PM</span>
+                            <div class="chat-bubble chat-editor border border-[var(--border-color)] text-base">
+                                David, incredible progress on Max's weight this week. Remember to avoid giving him extra treats during this raw transition phase.
+                            </div>
                         </div>
                         
-                        <div class="flex-grow p-4 overflow-y-auto space-y-4 bg-[var(--bg-color)]">
-                            <p class="text-center text-[10px] uppercase tracking-widest text-[var(--text-muted)] font-bold">Yesterday</p>
-                            
-                            <div class="flex flex-col items-start">
-                                <span class="text-[10px] text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Nutritionist) • 14:22 PM</span>
-                                <div class="chat-bubble chat-editor border border-[var(--border-color)]">
-                                    David, incredible progress on Max's weight this week. Remember to avoid giving him extra treats during this raw transition phase.
-                                </div>
-                            </div>
-                            
-                            <div class="flex flex-col items-start mt-2">
-                                <span class="text-[10px] text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Nutritionist) • 14:23 PM</span>
-                                <div class="chat-bubble chat-editor border border-[var(--border-color)]">
-                                    I've unlocked his maintenance macro profile. Review the new ingredient list before the next box ships.
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col items-end mt-2">
-                                <span class="text-[10px] text-[var(--text-muted)] mb-1 mr-1 font-bold">You • 15:45 PM</span>
-                                <div class="chat-bubble chat-author">
-                                    Got it! He's absolutely loving the beef isolate so far. Will review the salmon list tonight.
-                                </div>
+                        <div class="flex flex-col items-start">
+                            <span class="text-xs text-[var(--text-muted)] mb-1 ml-1 font-bold">Sarah (Nutritionist) • 14:23 PM</span>
+                            <div class="chat-bubble chat-editor border border-[var(--border-color)] text-base">
+                                I've unlocked his maintenance macro profile. Review the new ingredient list before the next box ships.
                             </div>
                         </div>
 
-                        <div class="p-3 border-t border-[var(--border-color)] bg-[var(--card-bg)] rounded-b-[15px] flex items-center gap-2">
-                            <button class="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors"><i class="fas fa-camera"></i></button>
-                            <input type="text" placeholder="Message Sarah..." class="flex-grow bg-[var(--dash-bg)] border border-[var(--border-color)] rounded-full px-4 py-2 text-sm text-[var(--text-main)] outline-none focus:border-[var(--accent-color)] transition-colors">
-                            <button class="bg-[var(--text-main)] text-[var(--bg-color)] w-9 h-9 rounded-full flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-paper-plane text-xs"></i></button>
-                        </div>
-                    </div>
-
-                    <div class="dash-card p-6">
-                        <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Veterinary & Health Docs</h3>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-3 min-w-0">
-                                    <i class="fas fa-file-medical text-[var(--text-muted)] text-xl shrink-0"></i>
-                                    <div class="min-w-0">
-                                        <p class="text-sm font-bold text-[var(--text-main)] truncate">Vet Approval - Dr. Smith</p>
-                                        <p class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider truncate">Verified Sep 01</p>
-                                    </div>
-                                </div>
-                                <i class="fas fa-check-circle text-[var(--accent-dark)] shrink-0"></i>
-                            </div>
-
-                            <div class="flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-3 min-w-0">
-                                    <i class="fas fa-vial text-[var(--accent-dark)] text-xl shrink-0"></i>
-                                    <div class="min-w-0">
-                                        <p class="text-sm font-bold text-[var(--text-main)] truncate">Allergy Test Results</p>
-                                        <p class="text-[10px] text-[var(--accent-dark)] uppercase tracking-wider font-bold truncate">Upload Required</p>
-                                    </div>
-                                </div>
-                                <button class="btn-sm btn-outline-table shrink-0" style="width: auto; height: auto; padding: 6px 12px; font-size: 0.65rem;"><i class="fas fa-upload mr-1"></i> Upload</button>
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs text-[var(--text-muted)] mb-1 mr-1 font-bold">You • 15:45 PM</span>
+                            <div class="chat-bubble chat-author text-base">
+                                Got it! He's absolutely loving the beef isolate so far. Will review the salmon list tonight.
                             </div>
                         </div>
                     </div>
 
+                    <div class="p-4 border-t border-[var(--border-color)] bg-[var(--card-bg)] rounded-b-[15px] flex items-center gap-3">
+                        <button class="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors text-xl"><i class="fas fa-paperclip"></i></button>
+                        <button class="text-[var(--text-muted)] hover:text-[var(--text-main)] p-2 transition-colors text-xl"><i class="fas fa-camera"></i></button>
+                        <input type="text" placeholder="Type your message here..." class="flex-grow bg-[var(--dash-bg)] border border-[var(--border-color)] rounded-full px-6 py-3 text-base text-[var(--text-main)] outline-none focus:border-[var(--accent-color)] transition-colors">
+                        <button class="bg-[var(--text-main)] text-[var(--bg-color)] w-12 h-12 rounded-full flex items-center justify-center hover:bg-[var(--accent-color)] hover:text-white transition-colors"><i class="fas fa-paper-plane text-lg"></i></button>
+                    </div>
                 </div>
+            </div>
 
+            <div id="section-subscriptions" class="tab-section">
+                <div class="dash-card p-6 flex flex-col justify-center items-center text-center py-16 w-full">
+                    <i class="fas fa-file-invoice-dollar text-6xl text-[var(--text-muted)] mb-4 opacity-50"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)]">Subscription Management</h3>
+                    <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md">Manage your billing details, pause deliveries, or upgrade your current pet meal plans.</p>
+                    <button class="btn-sm btn-action mt-6 w-auto !px-6"><i class="fas fa-credit-card mr-2"></i> Update Billing</button>
+                </div>
+            </div>
+
+            <div id="section-account" class="tab-section">
+                <div class="dash-card p-6 flex flex-col justify-center items-center text-center py-16 w-full">
+                    <i class="fas fa-user-edit text-6xl text-[var(--text-muted)] mb-4 opacity-50"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)]">Account Settings</h3>
+                    <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md">Update your password, notification preferences, and delivery address details.</p>
+                    <button class="btn-sm btn-outline-table mt-6 w-auto !px-6"><i class="fas fa-cog mr-2"></i> Edit Preferences</button>
+                </div>
             </div>
 
         </main>
     </div>
 
     <script>
-        // Sidebar Toggle Logic
+        // --- TAB FILTER LOGIC ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabSections = document.querySelectorAll('.tab-section');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // 1. Remove active state from all buttons & hide all sections
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabSections.forEach(section => section.classList.remove('active'));
+                
+                // 2. Add active state to clicked button
+                btn.classList.add('active');
+                
+                // 3. Show target section
+                const targetId = btn.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+                
+                // 4. Auto-close sidebar on mobile
+                if(window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // --- SIDEBAR TOGGLE ---
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const toggleBtn = document.getElementById('sidebar-toggle');
@@ -583,7 +748,7 @@
         if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        // Theme Toggle
+        // --- THEME LOGIC ---
         const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = themeBtn.querySelector('i');
         const savedTheme = localStorage.getItem('theme') || 'light';
@@ -606,7 +771,7 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
 
-        // RTL Toggle
+        // --- RTL LOGIC ---
         const rtlBtn = document.getElementById('rtl-toggle');
         const savedDir = localStorage.getItem('dir') || 'ltr';
         

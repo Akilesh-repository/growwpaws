@@ -44,7 +44,6 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* GrowwPaws Violet/Slate branding */
         :root {
             --bg-color: #ffffff;
             --dash-bg: #F1F5F9; 
@@ -54,7 +53,6 @@
             --accent-dark: #8B5CF6;  
             --border-color: #CBD5E1;
             
-            /* Sidebar Variables - Strictly Primary Color */
             --sidebar-bg: var(--accent-color);
             --sidebar-text: #ffffff;
             --sidebar-muted: rgba(255, 255, 255, 0.7);
@@ -79,14 +77,11 @@
             --accent-color: #C4B5FD; 
             --accent-dark: #A78BFA;
             
-            /* Dark Mode Sidebar */
             --sidebar-bg: var(--accent-dark);
-            
             --shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
             --shadow-hover: 0 10px 25px -5px rgba(196, 181, 253, 0.15);
         }
 
-        /* RTL SUPPORT */
         [dir="rtl"] { text-align: right; }
         [dir="rtl"] .ml-auto { margin-right: auto; margin-left: 0; }
         [dir="rtl"] .mr-3 { margin-left: 0.75rem; margin-right: 0; }
@@ -94,7 +89,6 @@
         [dir="rtl"] .mr-1 { margin-left: 0.25rem; margin-right: 0; }
         [dir="rtl"] .mr-2 { margin-left: 0.5rem; margin-right: 0; }
         
-        /* UI UTILITIES */
         .dash-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -102,193 +96,106 @@
             box-shadow: var(--shadow);
             transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
-        .dash-card:hover {
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent-color);
-        }
+        .dash-card:hover { box-shadow: var(--shadow-hover); border-color: var(--accent-color); }
         
-        /* LAYOUT */
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--sidebar-bg);
-            height: 100dvh; 
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding: 32px 16px;
-            overflow-y: auto; 
+            width: var(--sidebar-width); background: var(--sidebar-bg);
+            height: 100dvh; position: fixed; top: 0; left: 0;
+            padding: 32px 16px; overflow-y: auto; 
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
-            z-index: 50;
-            display: flex;
-            flex-direction: column;
-            color: var(--sidebar-text);
+            z-index: 50; display: flex; flex-direction: column; color: var(--sidebar-text);
         }
         [dir="rtl"] .sidebar { left: auto; right: 0; }
 
         .main-wrapper {
-            margin-left: var(--sidebar-width);
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            transition: margin 0.3s ease;
+            margin-left: var(--sidebar-width); min-height: 100dvh; display: flex;
+            flex-direction: column; transition: margin 0.3s ease;
         }
         [dir="rtl"] .main-wrapper { margin-left: 0; margin-right: var(--sidebar-width); }
 
         .topbar {
-            height: 88px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 40px;
-            background: var(--dash-bg); 
-            position: sticky;
-            top: 0;
-            z-index: 40;
+            height: 88px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px; background: var(--dash-bg); position: sticky; top: 0; z-index: 40;
         }
+        .content-area { padding: 0 40px 40px 40px; flex-grow: 1; }
 
-        .content-area {
-            padding: 0 40px 40px 40px;
-            flex-grow: 1;
-        }
-
-        /* RESPONSIVE */
         @media (max-width: 1024px) {
             .sidebar { transform: translateX(-100%); }
             .sidebar.active { transform: translateX(0); }
             [dir="rtl"] .sidebar { transform: translateX(100%); }
             [dir="rtl"] .sidebar.active { transform: translateX(0); }
-
             .main-wrapper { margin-left: 0 !important; margin-right: 0 !important; }
             .topbar { padding: 0 24px; }
             .content-area { padding: 0 24px 24px 24px; }
             .hamburger-btn { display: block !important; }
         }
-
         @media (max-width: 640px) {
             .content-area { padding: 0 16px 24px 16px; }
             .topbar { padding: 0 16px; }
         }
 
-        /* OVERLAYS & TOGGLES */
-        .sidebar-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px);
-            z-index: 45; display: none; opacity: 0; transition: opacity 0.3s;
-        }
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 45; display: none; opacity: 0; transition: opacity 0.3s; }
         .sidebar-overlay.active { display: block; opacity: 1; }
         .hamburger-btn { display: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; background: none; border: none; }
 
-        /* SIDEBAR NAVIGATION */
+        /* SIDEBAR NAV ITEMS */
         .nav-item {
-            display: flex;
-            align-items: center;
-            padding: 14px 20px;
-            color: var(--sidebar-muted);
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-decoration: none;
-            border-radius: 8px; 
-            margin-bottom: 4px;
-            transition: all 0.2s;
+            display: flex; align-items: center; padding: 14px 20px; color: var(--sidebar-muted);
+            font-weight: 700; font-size: 0.95rem; text-decoration: none; border-radius: 8px; 
+            margin-bottom: 4px; transition: all 0.2s; cursor: pointer;
         }
-        
         .nav-item i { width: 24px; font-size: 1.1rem; text-align: center; margin-right: 14px; transition: transform 0.2s; }
         [dir="rtl"] .nav-item i { margin-right: 0; margin-left: 14px; }
         .nav-item:hover { color: var(--sidebar-text); background: var(--sidebar-hover); }
         
-        .nav-item.active {
-            background: var(--sidebar-active);
-            color: var(--sidebar-text);
-            border-left: 4px solid var(--sidebar-text);
-            border-radius: 0 8px 8px 0;
-        }
-        [dir="rtl"] .nav-item.active {
-            border-left: none;
-            border-right: 4px solid var(--sidebar-text);
-            border-radius: 8px 0 0 8px;
-        }
+        .nav-item.active { background: var(--sidebar-active); color: var(--sidebar-text); border-left: 4px solid var(--sidebar-text); border-radius: 0 8px 8px 0; }
+        [dir="rtl"] .nav-item.active { border-left: none; border-right: 4px solid var(--sidebar-text); border-radius: 8px 0 0 8px; }
         .nav-item.active i { color: var(--sidebar-text); }
 
-        /* TOPBAR BUTTONS */
         .icon-btn {
-            width: 44px; height: 44px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-muted); background: var(--card-bg); 
-            border: 1px solid var(--border-color);
+            width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); background: var(--card-bg); border: 1px solid var(--border-color);
             cursor: pointer; transition: all 0.2s;
         }
         .icon-btn:hover { background: var(--text-main); color: var(--bg-color); border-color: var(--text-main); }
 
-        /* FIXED HERO BANNER */
-        .hero-banner {
-            background-color: #0F172A; 
-            color: #ffffff; 
-            border-radius: var(--radius);
-            padding: 48px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
-        }
-        body.dark-mode .hero-banner {
-            background-color: #0B1120;
-            border: 1px solid var(--border-color);
-        }
-        .hero-banner::before {
-            content: ''; position: absolute; right: -10%; top: -50%;
-            width: 300px; height: 300px; background: var(--accent-color);
-            border-radius: 50%; filter: blur(80px); opacity: 0.25;
-        }
-        .hero-banner-pattern {
-            position: absolute; inset: 0; opacity: 0.1; pointer-events: none;
-            background-image: radial-gradient(#ffffff 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
+        .hero-banner { background-color: #0F172A; color: #ffffff; border-radius: var(--radius); padding: 48px; position: relative; overflow: hidden; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3); }
+        body.dark-mode .hero-banner { background-color: #0B1120; border: 1px solid var(--border-color); }
+        .hero-banner::before { content: ''; position: absolute; right: -10%; top: -50%; width: 300px; height: 300px; background: var(--accent-color); border-radius: 50%; filter: blur(80px); opacity: 0.25; }
+        .hero-banner-pattern { position: absolute; inset: 0; opacity: 0.1; pointer-events: none; background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 24px 24px; }
 
-        /* PROGRESS BARS */
         .progress-bg { width: 100%; background-color: var(--dash-bg); border-radius: 999px; height: 6px; overflow: hidden; margin-top: 12px; }
         .progress-fill { background-color: var(--accent-color); height: 100%; border-radius: 999px; transition: width 1s ease-in-out;}
 
-        /* FIXED TABLE & BUTTONS */
         .clean-table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; }
         [dir="rtl"] .clean-table { text-align: right; }
         .clean-table th, .clean-table td { white-space: nowrap; }
-        
         .clean-table th { padding: 16px; color: var(--text-muted); font-weight: 700; font-size: 0.75rem; background: var(--dash-bg); text-transform: uppercase; letter-spacing: 1px; }
-        .clean-table th:first-child { border-radius: 8px 0 0 8px; }
-        .clean-table th:last-child { border-radius: 0 8px 8px 0; }
-        [dir="rtl"] .clean-table th:first-child { border-radius: 0 8px 8px 0; }
-        [dir="rtl"] .clean-table th:last-child { border-radius: 8px 0 0 8px; }
-        
         .clean-table td { padding: 16px; color: var(--text-main); font-weight: 500; font-size: 0.95rem; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
-        .clean-table tr:last-child td { border-bottom: none; }
         
         .status-badge { padding: 6px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 6px; }
         .badge-success { background: rgba(167, 139, 250, 0.1); color: var(--accent-dark); border: 1px solid rgba(167, 139, 250, 0.2); }
         .badge-warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
         .badge-danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
-        .badge-info { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
 
-        /* TABLE BUTTONS */
-        .btn-sm { 
-            padding: 0 16px; 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 145px; 
-            height: 38px;
-            white-space: nowrap; 
-            box-sizing: border-box;
-        }
+        .btn-sm { padding: 0 16px; font-size: 0.75rem; font-weight: 700; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; justify-content: center; width: 145px; height: 38px; }
         .btn-action { background: var(--accent-color); color: #FFFFFF; border: 1px solid var(--accent-color); }
         .btn-action:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
         .btn-outline-table { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
         .btn-outline-table:hover { border-color: var(--text-main); background: var(--dash-bg); }
+
+        /* TABS LOGIC */
+        .tab-section {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        .tab-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -304,22 +211,24 @@
         
         <nav class="flex-grow">
             <p class="text-xs font-bold uppercase tracking-widest mb-3 px-4" style="color: var(--sidebar-muted);">Admin Controls</p>
-            <a href="admin.html" class="nav-item active"><i class="fas fa-chart-pie"></i> System Overview</a>
             
-            <a href="#" class="nav-item">
-                <i class="fas fa-box"></i> Order Fulfillment 
+            <a class="nav-item active tab-btn" data-target="section-overview">
+                <i class="fas fa-chart-pie"></i> System Overview
+            </a>
+            <a class="nav-item tab-btn" data-target="section-orders">
+                <i class="fas fa-box"></i> Orders 
                 <span class="ml-auto bg-white text-[var(--accent-dark)] text-[10px] px-2 py-0.5 rounded-full font-bold">12</span>
             </a>
-            <a href="#" class="nav-item"><i class="fas fa-users"></i> Client Directory</a>
-            <a href="#" class="nav-item">
-                <i class="fas fa-warehouse"></i> Inventory Mgmt
+            <a class="nav-item tab-btn" data-target="section-inventory">
+                <i class="fas fa-warehouse"></i> Inventory 
                 <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">2</span>
             </a>
-            
-            <p class="text-xs font-bold uppercase tracking-widest mt-10 mb-3 px-4" style="color: var(--sidebar-muted);">Operations</p>
-            <a href="#" class="nav-item"><i class="fas fa-user-md"></i> Staff Workloads</a>
-            <a href="#" class="nav-item"><i class="fas fa-chart-line"></i> Financial Reports</a>
-            <a href="#" class="nav-item"><i class="fas fa-cog"></i> Platform Settings</a>
+            <a class="nav-item tab-btn" data-target="section-tasks">
+                <i class="fas fa-tasks"></i> Pending Tasks
+            </a>
+            <a class="nav-item tab-btn" data-target="section-clients">
+                <i class="fas fa-users"></i> Clients
+            </a>
             
             <a href="login.html" class="nav-item mt-10 !text-white hover:bg-black/10">
                 <i class="fas fa-sign-out-alt !text-white"></i> Logout
@@ -328,7 +237,6 @@
     </aside>
 
     <div class="main-wrapper">
-        
         <header class="topbar">
             <div class="flex items-center gap-4">
                 <button class="hamburger-btn" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
@@ -364,82 +272,217 @@
 
         <main class="content-area">
             
-            <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
-                <div class="hero-banner-pattern"></div>
-                <div class="relative z-10">
-                    <span class="inline-block border border-[var(--accent-color)] text-[var(--accent-color)] bg-[var(--accent-color)]/10 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">Live Briefing</span>
-                    <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Daily Operations Overview</h1>
-                    <p class="text-slate-300 text-base max-w-xl font-medium">All systems operational. There are <strong class="text-[var(--accent-color)]">12 orders</strong> requiring fulfillment today and <strong class="text-red-400">2 inventory alerts</strong> needing review.</p>
+            <div id="section-overview" class="tab-section active">
+                <div class="hero-banner mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-8 md:p-12">
+                    <div class="hero-banner-pattern"></div>
+                    <div class="relative z-10">
+                        <span class="inline-block border border-[var(--accent-color)] text-[var(--accent-color)] bg-[var(--accent-color)]/10 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">Live Briefing</span>
+                        <h1 class="text-3xl md:text-4xl font-black mb-2 tracking-tight text-white">Daily Operations Overview</h1>
+                        <p class="text-slate-300 text-base max-w-xl font-medium">All systems operational. There are <strong class="text-[var(--accent-color)]">12 orders</strong> requiring fulfillment today and <strong class="text-red-400">2 inventory alerts</strong> needing review.</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
+                        <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">Generate Report</button>
+                        <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
+                            <i class="fas fa-box"></i> View Queue
+                        </button>
+                    </div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
-                    <button class="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white hover:bg-white hover:text-black px-6 py-3 font-bold text-sm uppercase tracking-wide transition-all rounded-md">Generate Report</button>
-                    <button class="w-full sm:w-auto bg-[var(--accent-color)] hover:bg-[var(--accent-dark)] text-white border-2 border-[var(--accent-color)] hover:border-[var(--accent-dark)] px-6 py-3 font-bold text-sm uppercase tracking-wide shadow-lg transition-all flex items-center justify-center gap-2 rounded-md">
-                        <i class="fas fa-box"></i> View Queue
-                    </button>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Active Subscribers</p>
+                            <i class="fas fa-users text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">1,245</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 82%;"></div></div>
+                            <p class="text-xs text-[#10B981] mt-2 font-bold"><i class="fas fa-arrow-up mr-1"></i>+42 this week</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-center">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Orders</p>
+                            <i class="fas fa-dolly text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">42</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 40%; background-color: #f59e0b;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">12 due for dispatch today</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-center border-l-4 border-l-[#10B981]">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Monthly Revenue</p>
+                            <i class="fas fa-chart-line text-[var(--text-muted)]"></i>
+                        </div>
+                        <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">$45.2k</h3>
+                        <div class="mt-3">
+                            <div class="progress-bg"><div class="progress-fill" style="width: 65%; background-color: #10B981;"></div></div>
+                            <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Tracking 15% above last month</p>
+                        </div>
+                    </div>
+
+                    <div class="dash-card p-6 flex flex-col justify-between border-l-4 border-l-red-500 bg-red-50/10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-xs font-bold uppercase tracking-widest text-red-500">System Alerts</p>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">Action Req</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-[var(--text-main)] mt-1">2 Low Stock Items</h3>
+                        <p class="text-sm text-[var(--text-muted)] mt-1 line-clamp-1">Raw Beef Isolate & Sweet Potato Base.</p>
+                        <a href="#" class="text-red-500 font-bold text-sm mt-3 hover:underline flex items-center gap-1">Manage Inventory <i class="fas fa-arrow-right text-xs"></i></a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 dash-card flex flex-col min-w-0">
+                        <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-bold text-[var(--text-main)]">Fulfillment Queue</h3>
+                                <p class="text-xs font-medium text-[var(--text-muted)] mt-1">Orders requiring immediate preparation and dispatch.</p>
+                            </div>
+                            <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4"><i class="fas fa-print mr-1"></i> Print Labels</button>
+                        </div>
+                        
+                        <div class="overflow-x-auto flex-grow w-full">
+                            <table class="clean-table min-w-[700px]">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Client / Pet</th>
+                                        <th>Prescription / Recipe</th>
+                                        <th>Status</th>
+                                        <th style="text-align: center; width: 170px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="font-bold text-[var(--text-main)]">#ORD-9021</span></td>
+                                        <td>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">David O.</p>
+                                            <p class="text-xs text-[var(--text-muted)]">Max (German Shepherd)</p>
+                                        </td>
+                                        <td><span class="text-[var(--text-muted)] text-sm"><i class="fas fa-drumstick-bite opacity-50 mr-1"></i> Chicken / Rice Base</span></td>
+                                        <td><span class="status-badge badge-warning">Pending Prep</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-action">Process</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-bold text-[var(--text-main)]">#ORD-9022</span></td>
+                                        <td>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Sarah J.</p>
+                                            <p class="text-xs text-[var(--text-muted)]">Bella (Bulldog)</p>
+                                        </td>
+                                        <td><span class="text-[var(--text-muted)] text-sm"><i class="fas fa-cow opacity-50 mr-1"></i> Beef / Quinoa (Allergy)</span></td>
+                                        <td><span class="status-badge badge-warning">Pending Prep</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-action">Process</button></td>
+                                    </tr>
+                                    <tr style="background: rgba(167, 139, 250, 0.05);">
+                                        <td><span class="font-bold text-[var(--text-main)]">#ORD-9019</span></td>
+                                        <td>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Michael T.</p>
+                                            <p class="text-xs text-[var(--text-muted)]">Luna (Husky)</p>
+                                        </td>
+                                        <td><span class="text-[var(--accent-dark)] font-bold text-sm"><i class="fas fa-fish mr-1"></i> Custom Salmon Mix</span></td>
+                                        <td><span class="status-badge badge-success">Packed</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-outline-table">Dispatch</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="font-bold text-[var(--text-main)]">#ORD-9015</span></td>
+                                        <td>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Emily R.</p>
+                                            <p class="text-xs text-[var(--text-muted)]">Charlie (Beagle)</p>
+                                        </td>
+                                        <td><span class="text-[var(--text-muted)] text-sm"><i class="fas fa-leaf opacity-50 mr-1"></i> Veggie / Turkey</span></td>
+                                        <td><span class="status-badge badge-danger">Payment Hold</span></td>
+                                        <td class="text-center"><button class="btn-sm btn-disabled" disabled>Review</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-8">
+                        <div class="dash-card p-6 flex flex-col">
+                            <div class="flex justify-between items-center mb-4 border-b border-[var(--border-color)] pb-3">
+                                <h3 class="text-lg font-bold text-[var(--text-main)] flex items-center gap-2">
+                                    <i class="fas fa-exclamation-triangle text-red-500"></i> Low Stock Alerts
+                                </h3>
+                                <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-full">2 Items</span>
+                            </div>
+                            
+                            <div class="space-y-4 flex-grow">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-500 mt-1 border border-red-100">
+                                            <i class="fas fa-cow"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Raw Beef Isolate</p>
+                                            <p class="text-[11px] font-bold text-red-500 mt-0.5">15kg Remaining (Critically Low)</p>
+                                        </div>
+                                    </div>
+                                    <button class="text-xs font-bold bg-[var(--dash-bg)] border border-[var(--border-color)] hover:border-[var(--text-main)] px-3 py-1.5 rounded-md transition-all">Order</button>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-10 h-10 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-500 mt-1 border border-yellow-100">
+                                            <i class="fas fa-seedling"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Sweet Potato Base</p>
+                                            <p class="text-[11px] font-bold text-yellow-600 mt-0.5">45kg Remaining (Warning)</p>
+                                        </div>
+                                    </div>
+                                    <button class="text-xs font-bold bg-[var(--dash-bg)] border border-[var(--border-color)] hover:border-[var(--text-main)] px-3 py-1.5 rounded-md transition-all">Order</button>
+                                </div>
+                            </div>
+                            
+                            <a href="#" class="block text-center text-sm font-bold text-[var(--accent-dark)] hover:underline mt-4 pt-4 border-t border-[var(--border-color)]">View Full Inventory</a>
+                        </div>
+
+                        <div class="dash-card p-6">
+                            <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Pending Tasks</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fas fa-user-md text-[var(--text-muted)] text-xl"></i>
+                                        <div>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Vet Approvals</p>
+                                            <p class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">3 new profiles</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Review</button>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fas fa-headset text-[var(--accent-dark)] text-xl"></i>
+                                        <div>
+                                            <p class="text-sm font-bold text-[var(--text-main)]">Support Tickets</p>
+                                            <p class="text-[10px] text-[var(--accent-dark)] uppercase tracking-wider font-bold">5 Open Tickets</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Resolve</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-                
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Active Subscribers</p>
-                        <i class="fas fa-users text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">1,245</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 82%;"></div></div>
-                        <p class="text-xs text-[#10B981] mt-2 font-bold"><i class="fas fa-arrow-up mr-1"></i>+42 this week</p>
-                    </div>
-                </div>
-
-                <div class="dash-card p-6 flex flex-col justify-center">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Pending Orders</p>
-                        <i class="fas fa-dolly text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">42</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 40%; background-color: #f59e0b;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">12 due for dispatch today</p>
-                    </div>
-                </div>
-
-                <div class="dash-card p-6 flex flex-col justify-center border-l-4 border-l-[#10B981]">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">Monthly Revenue</p>
-                        <i class="fas fa-chart-line text-[var(--text-muted)]"></i>
-                    </div>
-                    <h3 class="text-3xl font-black text-[var(--text-main)] mt-1">$45.2k</h3>
-                    <div class="mt-3">
-                        <div class="progress-bg"><div class="progress-fill" style="width: 65%; background-color: #10B981;"></div></div>
-                        <p class="text-xs text-[var(--text-muted)] mt-2 font-medium">Tracking 15% above last month</p>
-                    </div>
-                </div>
-
-                <div class="dash-card p-6 flex flex-col justify-between border-l-4 border-l-red-500 bg-red-50/10">
-                    <div class="flex justify-between items-start mb-2">
-                        <p class="text-xs font-bold uppercase tracking-widest text-red-500">System Alerts</p>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400">Action Req</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-[var(--text-main)] mt-1">2 Low Stock Items</h3>
-                    <p class="text-sm text-[var(--text-muted)] mt-1 line-clamp-1">Raw Beef Isolate & Sweet Potato Base.</p>
-                    <a href="#" class="text-red-500 font-bold text-sm mt-3 hover:underline flex items-center gap-1">Manage Inventory <i class="fas fa-arrow-right text-xs"></i></a>
-                </div>
-
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
-                <div class="lg:col-span-2 dash-card flex flex-col min-w-0">
+            <div id="section-orders" class="tab-section">
+                <div class="dash-card flex flex-col min-w-0 w-full">
                     <div class="p-6 border-b border-[var(--border-color)] flex justify-between items-center">
                         <div>
-                            <h3 class="text-lg font-bold text-[var(--text-main)]">Fulfillment Queue</h3>
-                            <p class="text-xs font-medium text-[var(--text-muted)] mt-1">Orders requiring immediate preparation and dispatch.</p>
+                            <h3 class="text-lg font-bold text-[var(--text-main)]">All Orders</h3>
+                            <p class="text-xs font-medium text-[var(--text-muted)] mt-1">Manage all pending and completed orders.</p>
                         </div>
-                        <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4"><i class="fas fa-print mr-1"></i> Print Labels</button>
+                        <button class="btn-sm btn-outline-table w-auto min-w-0 !px-4"><i class="fas fa-print mr-1"></i> Print Queue</button>
                     </div>
-                    
                     <div class="overflow-x-auto flex-grow w-full">
                         <table class="clean-table min-w-[700px]">
                             <thead>
@@ -472,109 +515,117 @@
                                     <td><span class="status-badge badge-warning">Pending Prep</span></td>
                                     <td class="text-center"><button class="btn-sm btn-action">Process</button></td>
                                 </tr>
-                                <tr style="background: rgba(167, 139, 250, 0.05);">
-                                    <td><span class="font-bold text-[var(--text-main)]">#ORD-9019</span></td>
-                                    <td>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Michael T.</p>
-                                        <p class="text-xs text-[var(--text-muted)]">Luna (Husky)</p>
-                                    </td>
-                                    <td><span class="text-[var(--accent-dark)] font-bold text-sm"><i class="fas fa-fish mr-1"></i> Custom Salmon Mix</span></td>
-                                    <td><span class="status-badge badge-success">Packed</span></td>
-                                    <td class="text-center"><button class="btn-sm btn-outline-table">Dispatch</button></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="font-bold text-[var(--text-main)]">#ORD-9015</span></td>
-                                    <td>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Emily R.</p>
-                                        <p class="text-xs text-[var(--text-muted)]">Charlie (Beagle)</p>
-                                    </td>
-                                    <td><span class="text-[var(--text-muted)] text-sm"><i class="fas fa-leaf opacity-50 mr-1"></i> Veggie / Turkey</span></td>
-                                    <td><span class="status-badge badge-danger">Payment Hold</span></td>
-                                    <td class="text-center"><button class="btn-sm btn-disabled" disabled>Review</button></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex flex-col gap-8">
-                    
-                    <div class="dash-card p-6 flex flex-col">
-                        <div class="flex justify-between items-center mb-4 border-b border-[var(--border-color)] pb-3">
-                            <h3 class="text-lg font-bold text-[var(--text-main)] flex items-center gap-2">
-                                <i class="fas fa-exclamation-triangle text-red-500"></i> Low Stock Alerts
-                            </h3>
-                            <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded-full">2 Items</span>
-                        </div>
-                        
-                        <div class="space-y-4 flex-grow">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-500 mt-1 border border-red-100">
-                                        <i class="fas fa-cow"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Raw Beef Isolate</p>
-                                        <p class="text-[11px] font-bold text-red-500 mt-0.5">15kg Remaining (Critically Low)</p>
-                                    </div>
-                                </div>
-                                <button class="text-xs font-bold bg-[var(--dash-bg)] border border-[var(--border-color)] hover:border-[var(--text-main)] px-3 py-1.5 rounded-md transition-all">Order</button>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-500 mt-1 border border-yellow-100">
-                                        <i class="fas fa-seedling"></i>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Sweet Potato Base</p>
-                                        <p class="text-[11px] font-bold text-yellow-600 mt-0.5">45kg Remaining (Warning)</p>
-                                    </div>
-                                </div>
-                                <button class="text-xs font-bold bg-[var(--dash-bg)] border border-[var(--border-color)] hover:border-[var(--text-main)] px-3 py-1.5 rounded-md transition-all">Order</button>
-                            </div>
-                        </div>
-                        
-                        <a href="#" class="block text-center text-sm font-bold text-[var(--accent-dark)] hover:underline mt-4 pt-4 border-t border-[var(--border-color)]">View Full Inventory</a>
+            <div id="section-inventory" class="tab-section">
+                <div class="dash-card p-6 flex flex-col w-full">
+                    <div class="flex justify-between items-center mb-4 border-b border-[var(--border-color)] pb-3">
+                        <h3 class="text-lg font-bold text-[var(--text-main)] flex items-center gap-2">
+                            <i class="fas fa-warehouse text-[var(--text-muted)]"></i> Complete Inventory
+                        </h3>
                     </div>
-
-                    <div class="dash-card p-6">
-                        <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">Pending Tasks</h3>
-                        
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-user-md text-[var(--text-muted)] text-xl"></i>
-                                    <div>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Vet Approvals</p>
-                                        <p class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">3 new profiles</p>
-                                    </div>
+                    <div class="space-y-4 flex-grow">
+                        <div class="flex items-center justify-between p-3 border border-[var(--border-color)] rounded-lg">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center text-red-500 mt-1 border border-red-100">
+                                    <i class="fas fa-cow"></i>
                                 </div>
-                                <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Review</button>
-                            </div>
-
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fas fa-headset text-[var(--accent-dark)] text-xl"></i>
-                                    <div>
-                                        <p class="text-sm font-bold text-[var(--text-main)]">Support Tickets</p>
-                                        <p class="text-[10px] text-[var(--accent-dark)] uppercase tracking-wider font-bold">5 Open Tickets</p>
-                                    </div>
+                                <div>
+                                    <p class="text-sm font-bold text-[var(--text-main)]">Raw Beef Isolate</p>
+                                    <p class="text-[11px] font-bold text-red-500 mt-0.5">15kg Remaining (Critically Low)</p>
                                 </div>
-                                <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Resolve</button>
                             </div>
+                            <button class="text-xs font-bold bg-[var(--dash-bg)] border border-[var(--border-color)] hover:border-[var(--text-main)] px-3 py-1.5 rounded-md transition-all">Order</button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-[var(--border-color)] rounded-lg">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-500 mt-1 border border-yellow-100">
+                                    <i class="fas fa-seedling"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-[var(--text-main)]">Sweet Potato Base</p>
+                                    <p class="text-[11px] font-bold text-yellow-600 mt-0.5">45kg Remaining (Warning)</p>
+                                </div>
+                            </div>
+                            <button class="text-xs font-bold bg-[var(--dash-bg)] border border-[var(--border-color)] hover:border-[var(--text-main)] px-3 py-1.5 rounded-md transition-all">Order</button>
                         </div>
                     </div>
-
                 </div>
+            </div>
 
+            <div id="section-tasks" class="tab-section">
+                <div class="dash-card p-6 w-full">
+                    <h3 class="text-lg font-bold text-[var(--text-main)] mb-4 border-b border-[var(--border-color)] pb-3">All Operational Tasks</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 border border-[var(--border-color)] rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-user-md text-[var(--text-muted)] text-xl w-8 text-center"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-[var(--text-main)]">Vet Approvals</p>
+                                    <p class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">3 new profiles</p>
+                                </div>
+                            </div>
+                            <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Review</button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 border border-[var(--border-color)] rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-headset text-[var(--accent-dark)] text-xl w-8 text-center"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-[var(--text-main)]">Support Tickets</p>
+                                    <p class="text-[10px] text-[var(--accent-dark)] uppercase tracking-wider font-bold">5 Open Tickets</p>
+                                </div>
+                            </div>
+                            <button class="btn-sm btn-outline-table" style="min-width: auto; padding: 4px 12px; height: auto;">Resolve</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-clients" class="tab-section">
+                <div class="dash-card p-6 flex flex-col justify-center items-center text-center py-16 w-full">
+                    <i class="fas fa-users text-6xl text-[var(--text-muted)] mb-4 opacity-50"></i>
+                    <h3 class="text-xl font-bold text-[var(--text-main)]">Client Directory</h3>
+                    <p class="text-sm text-[var(--text-muted)] mt-2 max-w-md">Search and manage all 1,245 active subscribers, their pet profiles, and subscription history here.</p>
+                    <button class="btn-sm btn-action mt-6 w-auto !px-6"><i class="fas fa-plus mr-2"></i> Add New Client</button>
+                </div>
             </div>
 
         </main>
     </div>
 
     <script>
-        // Sidebar Toggle Logic
+        // --- TAB FILTER LOGIC ---
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabSections = document.querySelectorAll('.tab-section');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // 1. Remove active state from all buttons & hide all sections
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabSections.forEach(section => section.classList.remove('active'));
+                
+                // 2. Add active state to clicked button
+                btn.classList.add('active');
+                
+                // 3. Show target section
+                const targetId = btn.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+                
+                // 4. Auto-close sidebar on mobile
+                if(window.innerWidth <= 1024) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // --- SIDEBAR TOGGLE ---
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
         const toggleBtn = document.getElementById('sidebar-toggle');
@@ -587,7 +638,7 @@
         if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
         if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
-        // Theme Toggle
+        // --- THEME LOGIC ---
         const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = themeBtn.querySelector('i');
         const savedTheme = localStorage.getItem('theme') || 'light';
@@ -610,7 +661,7 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
 
-        // RTL Toggle
+        // --- RTL LOGIC ---
         const rtlBtn = document.getElementById('rtl-toggle');
         const savedDir = localStorage.getItem('dir') || 'ltr';
         
