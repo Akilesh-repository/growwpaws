@@ -27,10 +27,12 @@
 
         /* === PawCare THEME VARIABLES === */
         :root {
-            /* Background is White, Form is Primary Purple (Matches Navbar/Sidebar) */
             --bg-page: #F8FAFC; 
             --bg-form: #A78BFA; 
             
+            --page-text: #475569; /* Added for top controls (Light Mode) */
+            --toggle-bg: #CBD5E1; /* Added for top controls (Light Mode) */
+
             --form-text: #FFFFFF;
             --form-muted: rgba(255, 255, 255, 0.9);
             --input-bg: #FFFFFF;
@@ -38,7 +40,7 @@
             --input-icon: #64748B;
             
             --btn-bg: #FFFFFF;
-            --btn-text: #A78BFA; /* Matches form background */
+            --btn-text: #A78BFA; 
             
             --accent-color: #A78BFA; 
             --accent-dark: #8B5CF6; 
@@ -49,10 +51,12 @@
 
         /* DARK MODE */
         body.dark-mode {
-            /* Background is Dark, Form matches Dark Mode Sidebar */
             --bg-page: #0F172A; 
             --bg-form: #8B5CF6; 
             
+            --page-text: #94A3B8; /* Added for top controls (Dark Mode) */
+            --toggle-bg: #334155; /* Added for top controls (Dark Mode) */
+
             --form-text: #F8FAFC;
             --form-muted: rgba(255, 255, 255, 0.85);
             --input-bg: #1E293B;
@@ -70,8 +74,7 @@
             background-color: var(--bg-page);
             transition: background-color 0.3s ease;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column; /* Stack top bar and main content */
             position: relative;
         }
 
@@ -97,6 +100,51 @@
         [dir="rtl"] .input-field { padding: clamp(10px, 2vh, 14px) 44px clamp(10px, 2vh, 14px) 16px !important; }
         [dir="rtl"] .btn-icon { margin-left: 0; margin-right: 8px; transform: rotate(180deg); }
 
+        /* =========================================
+           TOP CONTROLS BAR
+           ========================================= */
+        .top-bar {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end; /* In RTL mode, this automatically aligns to left */
+            align-items: center;
+            padding: 1rem 1.5rem;
+            gap: 1.5rem;
+            z-index: 50;
+        }
+
+        .toggle { 
+            width: 42px; height: 24px; 
+            background: var(--toggle-bg); 
+            border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; 
+            flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        .toggle::before { 
+            content: ''; position: absolute; width: 18px; height: 18px; 
+            background: white; border-radius: 50%; top: 3px; left: 3px; 
+            transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+        }
+        body.dark-mode .toggle::before { left: 21px; }
+        
+        .top-btn-text { 
+            font-size: 0.7rem; font-weight: 800; color: var(--page-text); 
+            background: transparent; border: 2px solid var(--page-text); 
+            padding: 6px 12px; border-radius: 99px; cursor: pointer; transition: 0.2s; 
+            text-transform: uppercase; letter-spacing: 1px; 
+        }
+        .top-btn-text:hover { 
+            background: var(--page-text); color: var(--bg-page);
+        }
+
+        /* MAIN WRAPPER (Prevents overlap by filling remaining height) */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
         /* LOGIN CARD (PURPLE FORM) */
         .login-card {
             background-color: var(--bg-form);
@@ -118,7 +166,6 @@
         /* HEADERS */
         .auth-logo { text-align: center; margin-bottom: 4px; }
         .auth-header { text-align: center; }
-        /* Changed color to black (#000000) for the heading as requested */
         .auth-header h2 { font-size: clamp(1.2rem, 3vh, 1.5rem); font-weight: 900; color: #000000; margin-bottom: 2px; letter-spacing: -0.5px; }
         .auth-header p { font-size: clamp(0.8rem, 1.8vh, 0.85rem); color: var(--form-muted); margin: 0; font-weight: 500; }
 
@@ -226,28 +273,11 @@
         .login-link a { color: var(--form-text); font-weight: 800; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.5); text-underline-offset: 4px; transition: all 0.3s; }
         .login-link a:hover { text-decoration-color: #ffffff; }
 
-        /* BOTTOM CONTROLS */
-        .bottom-controls {
-            padding-top: clamp(10px, 2vh, 16px);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .toggle { width: 40px; height: 22px; background: rgba(0,0,0,0.15); border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; flex-shrink: 0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
-        .toggle::before { content: ''; position: absolute; width: 16px; height: 16px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        body.dark-mode .toggle { background: rgba(0,0,0,0.3); }
-        body.dark-mode .toggle::before { left: 21px; }
-        
-        .btn-text { font-size: 0.65rem; font-weight: 800; color: var(--form-text); background: rgba(255,255,255,0.15); border: 1px solid transparent; padding: 6px 12px; border-radius: 99px; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-text:hover { background: rgba(255,255,255,0.25); }
-
         /* =========================================
            ULTRA-COMPACT MOBILE OPTIMIZATIONS 
            ========================================= */
         @media (max-width: 400px), (max-height: 750px) {
+            .top-bar { padding: 0.8rem 1rem; gap: 1rem; }
             .login-card { padding: 1.2rem 1.5rem !important; gap: 12px !important; width: 92%; border-radius: 20px; }
             .auth-logo { margin-bottom: 0 !important; }
             .auth-logo a { font-size: 1.4rem !important; }
@@ -268,10 +298,10 @@
             .auth-btn { height: 42px !important; padding: 0 !important; font-size: 0.8rem !important; margin-top: 2px !important; }
             .social-btn { width: 38px !important; height: 38px !important; font-size: 0.95rem !important; }
             .login-link { font-size: 0.75rem !important; margin-bottom: 0 !important;}
-            .bottom-controls { padding-top: 10px !important; gap: 16px !important; }
         }
 
         @media (max-height: 600px) {
+            .top-bar { padding: 0.5rem 1rem; }
             .login-card { gap: 8px !important; padding: 12px 24px !important; }
             form { gap: 8px !important; }
             .form-group { gap: 2px !important; }
@@ -281,7 +311,6 @@
             [dir="rtl"] .input-icon { right: 12px !important; left: auto !important; }
             .auth-btn { height: 36px !important; font-size: 0.75rem !important; }
             .social-btn { width: 32px !important; height: 32px !important; font-size: 0.85rem !important; }
-            .bottom-controls { display: none !important; } 
         }
     </style>
 </head>
@@ -290,68 +319,72 @@
     <div class="bg-glow-1"></div>
     <div class="bg-glow-2"></div>
 
-    <div class="login-card">
-
-        <div class="auth-logo">
-            <a href="index.html" class="text-2xl font-black tracking-tighter text-white" style="text-decoration: none;">
-                PawCare
-            </a>
+    <!-- NEW TOP CONTROLS -->
+    <div class="top-bar">
+        <div class="flex items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('theme-toggle').click()">
+            <i class="fas fa-sun text-xs" style="color: var(--page-text); transition: color 0.3s;"></i>
+            <div class="toggle" id="theme-toggle"></div>
+            <i class="fas fa-moon text-xs" style="color: var(--page-text); transition: color 0.3s;"></i>
         </div>
+        <button id="rtl-toggle" class="top-btn-text">RTL Mode</button>
+    </div>
 
-        <div class="auth-header">
-            <h2>Welcome to the Pack</h2>
-            <p>Access your pet's nutrition dashboard.</p>
-        </div>
+    <!-- MAIN LOGIN WRAPPER -->
+    <div class="main-wrapper">
+        <div class="login-card">
 
-        <form id="login-form">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-wrapper">
-                    <input type="email" id="email" class="input-field" placeholder="owner@gmail.com" required>
-                    <i class="fas fa-envelope input-icon"></i>
+            <div class="auth-logo">
+                <a href="index.html" class="text-2xl font-black tracking-tighter text-white" style="text-decoration: none;">
+                    PawCare
+                </a>
+            </div>
+
+            <div class="auth-header">
+                <h2>Welcome to the Pack</h2>
+                <p>Access your pet's nutrition dashboard.</p>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" class="input-field" placeholder="owner@gmail.com" required>
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div class="input-wrapper">
-                    <input type="password" id="password" class="input-field" placeholder="••••••••" required>
-                    <i class="fas fa-lock input-icon"></i>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
                 </div>
+
+                <div class="utility-row flex-wrap sm:flex-nowrap gap-2">
+                    <label class="flex items-center cursor-pointer truncate">
+                        <input type="checkbox" class="flex-shrink-0 cursor-pointer">
+                        <span class="ml-2 text-xs font-semibold truncate" style="color: var(--form-text);">Remember me</span>
+                    </label>
+                    <a href="#" class="text-xs font-bold transition whitespace-nowrap hover:opacity-100" style="color: var(--form-text); opacity: 0.9;">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="auth-btn">Sign In <i class="fas fa-arrow-right ml-2 btn-icon"></i></button>
+            </form>
+
+            <div class="divider"><span>Or</span></div>
+
+            <div class="social-login">
+                <button class="social-btn" type="button" title="Sign in with Google"><i class="fab fa-google"></i></button>
+                <button class="social-btn" type="button" title="Sign in with Apple"><i class="fab fa-apple"></i></button>
+                <button class="social-btn" type="button" title="Sign in with Facebook"><i class="fab fa-facebook-f"></i></button>
             </div>
 
-            <div class="utility-row flex-wrap sm:flex-nowrap gap-2">
-                <label class="flex items-center cursor-pointer truncate">
-                    <input type="checkbox" class="flex-shrink-0 cursor-pointer">
-                    <span class="ml-2 text-xs font-semibold truncate" style="color: var(--form-text);">Remember me</span>
-                </label>
-                <a href="#" class="text-xs font-bold transition whitespace-nowrap hover:opacity-100" style="color: var(--form-text); opacity: 0.9;">Forgot Password?</a>
+            <div class="login-link">
+                New to PawCare? <a href="register.html">Build a Meal Plan</a>
             </div>
 
-            <button type="submit" class="auth-btn">Sign In <i class="fas fa-arrow-right ml-2 btn-icon"></i></button>
-        </form>
-
-        <div class="divider"><span>Or</span></div>
-
-        <div class="social-login">
-            <button class="social-btn" type="button" title="Sign in with Google"><i class="fab fa-google"></i></button>
-            <button class="social-btn" type="button" title="Sign in with Apple"><i class="fab fa-apple"></i></button>
-            <button class="social-btn" type="button" title="Sign in with Facebook"><i class="fab fa-facebook-f"></i></button>
         </div>
-
-        <div class="login-link">
-            New to PawCare? <a href="register.html">Build a Meal Plan</a>
-        </div>
-
-        <div class="bottom-controls">
-            <div class="flex items-center gap-2" style="cursor: pointer;" onclick="document.getElementById('theme-toggle').click()">
-                <i class="fas fa-sun text-xs" style="color: var(--form-text);"></i>
-                <div class="toggle" id="theme-toggle"></div>
-                <i class="fas fa-moon text-xs" style="color: var(--form-text);"></i>
-            </div>
-            <button id="rtl-toggle" class="btn-text">RTL Mode</button>
-        </div>
-
     </div>
 
     <script>
